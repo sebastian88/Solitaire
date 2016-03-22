@@ -41,22 +41,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums\Enums.cs" />
-    <Compile Include="FunctionalModels\HandModels\Hand.cs" />
-    <Compile Include="FunctionalModels\MoveModels\Impl\BaseMove.cs" />
-    <Compile Include="FunctionalModels\MoveModels\Impl\FoundationMove.cs" />
-    <Compile Include="FunctionalModels\MoveModels\Impl\TableauMove.cs" />
-    <Compile Include="FunctionalModels\MoveModels\Move.cs" />
-    <Compile Include="FunctionalModels\StackModels\Impl\BaseStack.cs" />
-    <Compile Include="FunctionalModels\StackModels\Impl\FoundationStack.cs" />
-    <Compile Include="FunctionalModels\StackModels\Impl\TableauStack.cs" />
-    <Compile Include="FunctionalModels\StackModels\PopableStack.cs" />
-    <Compile Include="FunctionalModels\StackModels\PushableStack.cs" />
-    <Compile Include="FunctionalModels\TableModels\Table.cs" />
+    <Compile Include="FunctionalModels\Hand\Hand.cs" />
+    <Compile Include="FunctionalModels\Move\Impl\BaseMove.cs" />
+    <Compile Include="FunctionalModels\Move\Impl\FoundationMove.cs" />
+    <Compile Include="FunctionalModels\Move\Impl\TableauMove.cs" />
+    <Compile Include="FunctionalModels\Move\Move.cs" />
+    <Compile Include="FunctionalModels\Stack\Impl\BaseStack.cs" />
+    <Compile Include="FunctionalModels\Stack\Impl\FoundationStack.cs" />
+    <Compile Include="FunctionalModels\Stack\Impl\TableauStack.cs" />
+    <Compile Include="FunctionalModels\Stack\PopableStack.cs" />
+    <Compile Include="FunctionalModels\Stack\PushableStack.cs" />
+    <Compile Include="FunctionalModels\Table\Table.cs" />
     <Compile Include="Models\Card.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CardService.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="FunctionalModels\Game\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

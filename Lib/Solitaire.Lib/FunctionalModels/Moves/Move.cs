@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Solitaire.Lib.FunctionalModels.MoveModels
+namespace Solitaire.Lib.FunctionalModels.Moves
 {
   public interface Move
   {

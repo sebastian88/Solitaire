@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Solitaire.Lib.FunctionalModels.StackModels
+namespace Solitaire.Lib.FunctionalModels.Stacks
 {
   public interface PushableStack
   {

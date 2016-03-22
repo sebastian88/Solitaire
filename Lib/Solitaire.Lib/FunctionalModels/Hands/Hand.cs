@@ -1,4 +1,4 @@
-﻿using Solitaire.Lib.FunctionalModels.StackModels;
+﻿using Solitaire.Lib.FunctionalModels.Stacks;
 using Solitaire.Lib.Models;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Solitaire.Lib.FunctionalModels.HandModels
+namespace Solitaire.Lib.FunctionalModels.Hands
 {
   public class Hand : PopableStack
   {

@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using Solitaire.Lib.Models;
-using Solitaire.Lib.FunctionalModels.TableModels;
+using Solitaire.Lib.FunctionalModels.Tables;
 
 namespace Solitaire.Lib.Tests.FunctionalModelsTest
 {
@@ -71,6 +71,26 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
       table.Deal(GenerateDeck());
 
       Assert.AreEqual(24, table.Hand.Count());
+    }
+
+    [TestMethod]
+    public void Deal_CheckFirstFoundationStack_IsNotNull()
+    {
+      Table table = new Table();
+
+      table.Deal(GenerateDeck());
+
+      Assert.IsNotNull(table.Foundation[0]);
+    }
+
+    [TestMethod]
+    public void Deal_CheckFoundationStacks_IsFourOfThem()
+    {
+      Table table = new Table();
+
+      table.Deal(GenerateDeck());
+
+      Assert.AreEqual(4, table.Foundation.Count);
     }
   }
 }

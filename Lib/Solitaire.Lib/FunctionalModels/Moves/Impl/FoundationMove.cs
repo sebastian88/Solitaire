@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Solitaire.Lib.FunctionalModels.MoveModels.Impl
+namespace Solitaire.Lib.FunctionalModels.Moves.Impl
 {
   public class FoundationMove : BaseMove, Move
   {

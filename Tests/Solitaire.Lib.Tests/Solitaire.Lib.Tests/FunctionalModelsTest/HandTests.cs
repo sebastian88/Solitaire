@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Solitaire.Lib.FunctionalModels.HandModels;
+using Solitaire.Lib.FunctionalModels.Hands;
 using Solitaire.Lib.Models;
 using System.Collections.Generic;
 

@@ -4,22 +4,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Solitaire.Lib.FunctionalModels.HandModels;
-using Solitaire.Lib.FunctionalModels.StackModels.Impl;
+using Solitaire.Lib.FunctionalModels.Hands;
+using Solitaire.Lib.FunctionalModels.Stacks.Impl;
 
-namespace Solitaire.Lib.FunctionalModels.TableModels
+namespace Solitaire.Lib.FunctionalModels.Tables
 {
   public class Table
   {
     private readonly int NUMBER_OF_TABLEAU_STACKS = 7;
+    private readonly int NUMBER_OF_FOUNDATION_STACKS = 4;
 
     public List<TableauStack> Tableau;
-    public List<List<Card>> FoundationCards;
-    public Hand Hand;
+    public List<FoundationStack> Foundation;
+    public Hands.Hand Hand;
 
     public Table()
     {
       InstanciateTableau();
+      InstanciateFoundation();
       instanciateHand();
     }
 
@@ -30,14 +32,16 @@ namespace Solitaire.Lib.FunctionalModels.TableModels
         Tableau.Add(new TableauStack());
     }
 
-    private void InstanciateFoundationCards()
+    private void InstanciateFoundation()
     {
-
+      Foundation = new List<FoundationStack>();
+      for (int i = 0; i < NUMBER_OF_FOUNDATION_STACKS; i++)
+        Foundation.Add(new FoundationStack());
     }
 
     private void instanciateHand()
     {
-      Hand = new Hand();
+      Hand = new Hands.Hand();
     }
 
     public void Deal(List<Card> cards)
@@ -64,7 +68,7 @@ namespace Solitaire.Lib.FunctionalModels.TableModels
       return cards;
     }
 
-    private int UpTurnEndTableauCards()
+    public int UpTurnEndTableauCards()
     {
       int countFlippedCards = 0;
       foreach (TableauStack tableauStack in Tableau)

@@ -39,3 +39,4 @@ C:\Github\Solitaire\Solitaire\Web\Solitaire.Web\bin\System.Web.Helpers.xml
 C:\Github\Solitaire\Solitaire\Web\Solitaire.Web\bin\System.Web.Mvc.xml
 C:\Github\Solitaire\Solitaire\Web\Solitaire.Web\obj\Debug\Solitaire.Web.dll
 C:\Github\Solitaire\Solitaire\Web\Solitaire.Web\obj\Debug\Solitaire.Web.pdb
+C:\Github\Solitaire\Solitaire\Web\Solitaire.Web\obj\Debug\Solitaire.Web.csprojResolveAssemblyReference.cache
