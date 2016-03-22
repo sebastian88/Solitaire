@@ -19,3 +19,23 @@ C:\Users\seb.rogers\Documents\Visual Studio 2015\Projects\004Solitaire\Web\Solit
 C:\Users\seb.rogers\Documents\Visual Studio 2015\Projects\004Solitaire\Web\Solitaire.Web\obj\Debug\Solitaire.Web.csprojResolveAssemblyReference.cache
 C:\Users\seb.rogers\Documents\Visual Studio 2015\Projects\004Solitaire\Web\Solitaire.Web\obj\Debug\Solitaire.Web.dll
 C:\Users\seb.rogers\Documents\Visual Studio 2015\Projects\004Solitaire\Web\Solitaire.Web\obj\Debug\Solitaire.Web.pdb
+C:\Github\Solitaire\Solitaire\Web\Solitaire.Web\bin\Solitaire.Web.dll.config
+C:\Github\Solitaire\Solitaire\Web\Solitaire.Web\bin\Solitaire.Web.dll
+C:\Github\Solitaire\Solitaire\Web\Solitaire.Web\bin\Solitaire.Web.pdb
+C:\Github\Solitaire\Solitaire\Web\Solitaire.Web\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Github\Solitaire\Solitaire\Web\Solitaire.Web\bin\Microsoft.Web.Infrastructure.dll
+C:\Github\Solitaire\Solitaire\Web\Solitaire.Web\bin\System.Web.Helpers.dll
+C:\Github\Solitaire\Solitaire\Web\Solitaire.Web\bin\System.Web.Mvc.dll
+C:\Github\Solitaire\Solitaire\Web\Solitaire.Web\bin\System.Web.Razor.dll
+C:\Github\Solitaire\Solitaire\Web\Solitaire.Web\bin\System.Web.Webpages.Deployment.dll
+C:\Github\Solitaire\Solitaire\Web\Solitaire.Web\bin\System.Web.Webpages.dll
+C:\Github\Solitaire\Solitaire\Web\Solitaire.Web\bin\System.Web.Webpages.Razor.dll
+C:\Github\Solitaire\Solitaire\Web\Solitaire.Web\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Github\Solitaire\Solitaire\Web\Solitaire.Web\bin\System.Web.Razor.xml
+C:\Github\Solitaire\Solitaire\Web\Solitaire.Web\bin\System.Web.Webpages.xml
+C:\Github\Solitaire\Solitaire\Web\Solitaire.Web\bin\System.Web.Webpages.Deployment.xml
+C:\Github\Solitaire\Solitaire\Web\Solitaire.Web\bin\System.Web.Webpages.Razor.xml
+C:\Github\Solitaire\Solitaire\Web\Solitaire.Web\bin\System.Web.Helpers.xml
+C:\Github\Solitaire\Solitaire\Web\Solitaire.Web\bin\System.Web.Mvc.xml
+C:\Github\Solitaire\Solitaire\Web\Solitaire.Web\obj\Debug\Solitaire.Web.dll
+C:\Github\Solitaire\Solitaire\Web\Solitaire.Web\obj\Debug\Solitaire.Web.pdb
