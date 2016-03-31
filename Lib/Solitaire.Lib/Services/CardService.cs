@@ -9,46 +9,52 @@ namespace Solitaire.Lib.Services
 {
   public class CardService
   {
+    private Random _random;
+
+    private readonly int NUMBER_OF_TIMES_TO_SHUFFLE = 4;
+
     public CardService()
     {
-      // test
+      _random = new Random();
     }
 
-    public bool IsValidTableauMove(Card topCard, Card bottomCard)
+    public List<Card> GenerateShuffledCards()
     {
-      return IsTopCardOneValueLowerThanBottomCard(topCard, bottomCard)
-        && IsOppositeSuit(topCard, bottomCard);
+      List<Card> deck = GenerateDeck();
+      ShuffleCardsMultipleTimes(deck);
+      return deck;
     }
 
-    private bool IsTopCardOneValueLowerThanBottomCard(Card topCard, Card bottomCard)
+    private List<Card> GenerateDeck()
     {
-      return IsTopCardOfLowerValueThanBottomCard(topCard, bottomCard)
-        && IsInSequence(topCard, bottomCard);
+      List<Card> cards = new List<Card>();
+      for (int i = 1; i <= 4; i++)
+        for (int j = 1; j <= 13; j++)
+          cards.Add(new Card((Enums.Values)j, (Enums.Suits)i, false));
+
+      return cards;
     }
 
-    private bool IsTopCardOfLowerValueThanBottomCard(Card topCard, Card bottomCard)
+    private void ShuffleCardsMultipleTimes(List<Card> cards)
     {
-      return topCard.ValueInt - bottomCard.ValueInt < 0;
+      for(int i = 0; i < NUMBER_OF_TIMES_TO_SHUFFLE; i++)
+        ShuffleCards(cards);
     }
 
-    private bool IsInSequence(Card cardOne, Card cardTwo)
+    private void ShuffleCards(List<Card> cards)
     {
-      return Math.Abs(cardOne.ValueInt - cardTwo.ValueInt) == 1;
+      List<Card> shuffledCards = new List<Card>();
+
+      for (int i = 0; i < cards.Count; i++)
+        shuffledCards.Add(RemoveRandomCard(cards));
     }
 
-    private bool IsOppositeSuit(Card cardOne, Card cardTwo)
+    private Card RemoveRandomCard(List<Card> cards)
     {
-      return IsOdd(cardOne.SuitInt + cardTwo.SuitInt);
-    }
-    
-    private bool IsOdd(int value)
-    {
-      return value % 2 != 0;
-    }
-
-    public bool IsValidFoundationMove(Card topCard, Card bottomCard)
-    {
-      return true;
+      int randomNumber = _random.Next(cards.Count - 1);
+      Card randomCard = cards.ElementAt(randomNumber);
+      cards.RemoveAt(randomNumber);
+      return randomCard;
     }
   }
 }

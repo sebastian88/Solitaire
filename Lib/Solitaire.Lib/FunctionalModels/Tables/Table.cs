@@ -14,9 +14,9 @@ namespace Solitaire.Lib.FunctionalModels.Tables
     private readonly int NUMBER_OF_TABLEAU_STACKS = 7;
     private readonly int NUMBER_OF_FOUNDATION_STACKS = 4;
 
-    public List<TableauStack> Tableau;
-    public List<FoundationStack> Foundation;
-    public Hands.Hand Hand;
+    private List<TableauStack> _tableau;
+    private List<FoundationStack> _foundation;
+    private Hand _hand;
 
     public Table()
     {
@@ -24,24 +24,29 @@ namespace Solitaire.Lib.FunctionalModels.Tables
       InstanciateFoundation();
       instanciateHand();
     }
+    public Table(List<Card> cards)
+      :this()
+    {
+      Deal(cards);
+    }
 
     private void InstanciateTableau()
     {
-      Tableau = new List<TableauStack>();
+      _tableau = new List<TableauStack>();
       for (int i = 0; i < NUMBER_OF_TABLEAU_STACKS; i++)
-        Tableau.Add(new TableauStack());
+        _tableau.Add(new TableauStack());
     }
 
     private void InstanciateFoundation()
     {
-      Foundation = new List<FoundationStack>();
+      _foundation = new List<FoundationStack>();
       for (int i = 0; i < NUMBER_OF_FOUNDATION_STACKS; i++)
-        Foundation.Add(new FoundationStack());
+        _foundation.Add(new FoundationStack());
     }
 
     private void instanciateHand()
     {
-      Hand = new Hands.Hand();
+      _hand = new Hand();
     }
 
     public void Deal(List<Card> cards)
@@ -62,16 +67,31 @@ namespace Solitaire.Lib.FunctionalModels.Tables
     {
       for (int currentTableau = rowToDeal; currentTableau < NUMBER_OF_TABLEAU_STACKS; currentTableau++)
       {
-        Tableau[currentTableau].PushTopCard(cards.Last());
+        _tableau[currentTableau].PushTopCard(cards.Last());
         cards.RemoveAt(cards.Count - 1);
       }
       return cards;
     }
 
+    public TableauStack GetTableauStack(int tableauStack)
+    {
+      return _tableau[tableauStack];
+    }
+
+    public FoundationStack GetFoundationStack(int foundationStack)
+    {
+      return _foundation[foundationStack];
+    }
+
+    public Hand GetHand()
+    {
+      return _hand;
+    }
+
     public int UpTurnEndTableauCards()
     {
       int countFlippedCards = 0;
-      foreach (TableauStack tableauStack in Tableau)
+      foreach (TableauStack tableauStack in _tableau)
       {
         if (!tableauStack.ViewTopCard().IsFaceUp)
         {
@@ -86,7 +106,7 @@ namespace Solitaire.Lib.FunctionalModels.Tables
     {
       foreach (Card card in cards)
         card.IsFaceUp = true;
-      Hand.SetCards(cards);
+      _hand.SetCards(cards);
     }
   }
 }

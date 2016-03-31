@@ -30,7 +30,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
 
       table.Deal(GenerateDeck());
 
-      Assert.AreEqual(1, table.Tableau[0].Count());
+      Assert.AreEqual(1, table.GetTableauStack(0).Count());
     }
 
     [TestMethod]
@@ -40,7 +40,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
 
       table.Deal(GenerateDeck());
 
-      Assert.AreEqual(2, table.Tableau[1].Count());
+      Assert.AreEqual(2, table.GetTableauStack(1).Count());
     }
 
     [TestMethod]
@@ -50,7 +50,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
 
       table.Deal(GenerateDeck());
 
-      Assert.AreEqual(7, table.Tableau[6].Count());
+      Assert.AreEqual(7, table.GetTableauStack(6).Count());
     }
 
     [TestMethod]
@@ -60,7 +60,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
 
       table.Deal(GenerateDeck());
 
-      Assert.IsTrue(table.Tableau[0].ViewTopCard().IsFaceUp);
+      Assert.IsTrue(table.GetTableauStack(0).ViewTopCard().IsFaceUp);
     }
 
     [TestMethod]
@@ -70,7 +70,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
 
       table.Deal(GenerateDeck());
 
-      Assert.AreEqual(24, table.Hand.Count());
+      Assert.AreEqual(24, table.GetHand().Count());
     }
 
     [TestMethod]
@@ -80,17 +80,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
 
       table.Deal(GenerateDeck());
 
-      Assert.IsNotNull(table.Foundation[0]);
-    }
-
-    [TestMethod]
-    public void Deal_CheckFoundationStacks_IsFourOfThem()
-    {
-      Table table = new Table();
-
-      table.Deal(GenerateDeck());
-
-      Assert.AreEqual(4, table.Foundation.Count);
+      Assert.IsNotNull(table.GetFoundationStack(0));
     }
   }
 }

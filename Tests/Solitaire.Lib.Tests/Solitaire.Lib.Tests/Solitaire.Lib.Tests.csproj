@@ -57,6 +57,7 @@
     <Compile Include="FunctionalModelsTest\HandTests.cs" />
     <Compile Include="FunctionalModelsTest\TableauTests.cs" />
     <Compile Include="FunctionalModelsTest\TableTests.cs" />
+    <Compile Include="FunctionalModelsTest\GameTests.cs" />
     <Compile Include="ServicesTests\CardServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
