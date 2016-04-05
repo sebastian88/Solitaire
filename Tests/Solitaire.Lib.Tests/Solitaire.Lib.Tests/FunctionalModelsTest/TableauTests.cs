@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Solitaire.Lib.FunctionalModels.StackModels.Impl;
+using Solitaire.Lib.FunctionalModels.Stacks.Impl;
 using System.Collections.Generic;
 using Solitaire.Lib.Models;
 

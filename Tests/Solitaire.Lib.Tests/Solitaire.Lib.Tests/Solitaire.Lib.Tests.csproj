@@ -57,11 +57,12 @@
     <Compile Include="FunctionalModelsTest\HandTests.cs" />
     <Compile Include="FunctionalModelsTest\TableauTests.cs" />
     <Compile Include="FunctionalModelsTest\TableTests.cs" />
+    <Compile Include="FunctionalModelsTest\GameTests.cs" />
     <Compile Include="ServicesTests\CardServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Lib\Solitaire.Lib\Solitaire.Lib\Solitaire.Lib.csproj">
+    <ProjectReference Include="..\..\..\Lib\Solitaire.Lib\Solitaire.Lib.csproj">
       <Project>{6ab74e50-428c-44f0-bb84-32d6e94b4d15}</Project>
       <Name>Solitaire.Lib</Name>
     </ProjectReference>

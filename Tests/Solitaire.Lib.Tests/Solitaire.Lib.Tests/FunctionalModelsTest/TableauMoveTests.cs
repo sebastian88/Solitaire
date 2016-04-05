@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Solitaire.Lib.FunctionalModels.MoveModels;
-using Solitaire.Lib.FunctionalModels.MoveModels.Impl;
+using Solitaire.Lib.FunctionalModels.Moves;
+using Solitaire.Lib.FunctionalModels.Moves.Impl;
 using Solitaire.Lib.Models;
 
 namespace Solitaire.Lib.Tests.FunctionalModelsTest
