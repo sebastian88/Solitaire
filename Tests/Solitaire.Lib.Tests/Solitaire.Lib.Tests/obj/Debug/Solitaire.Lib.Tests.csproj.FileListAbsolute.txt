@@ -5,3 +5,10 @@ C:\Users\seb.rogers\Documents\Visual Studio 2015\Projects\004Solitaire\Tests\Sol
 C:\Users\seb.rogers\Documents\Visual Studio 2015\Projects\004Solitaire\Tests\Solitaire.Lib.Tests\Solitaire.Lib.Tests\obj\Debug\Solitaire.Lib.Tests.csprojResolveAssemblyReference.cache
 C:\Users\seb.rogers\Documents\Visual Studio 2015\Projects\004Solitaire\Tests\Solitaire.Lib.Tests\Solitaire.Lib.Tests\obj\Debug\Solitaire.Lib.Tests.dll
 C:\Users\seb.rogers\Documents\Visual Studio 2015\Projects\004Solitaire\Tests\Solitaire.Lib.Tests\Solitaire.Lib.Tests\obj\Debug\Solitaire.Lib.Tests.pdb
+C:\Github\Solitaire\Solitaire\Tests\Solitaire.Lib.Tests\Solitaire.Lib.Tests\bin\Debug\Solitaire.Lib.Tests.dll
+C:\Github\Solitaire\Solitaire\Tests\Solitaire.Lib.Tests\Solitaire.Lib.Tests\bin\Debug\Solitaire.Lib.Tests.pdb
+C:\Github\Solitaire\Solitaire\Tests\Solitaire.Lib.Tests\Solitaire.Lib.Tests\bin\Debug\Solitaire.Lib.dll
+C:\Github\Solitaire\Solitaire\Tests\Solitaire.Lib.Tests\Solitaire.Lib.Tests\bin\Debug\Solitaire.Lib.pdb
+C:\Github\Solitaire\Solitaire\Tests\Solitaire.Lib.Tests\Solitaire.Lib.Tests\obj\Debug\Solitaire.Lib.Tests.csprojResolveAssemblyReference.cache
+C:\Github\Solitaire\Solitaire\Tests\Solitaire.Lib.Tests\Solitaire.Lib.Tests\obj\Debug\Solitaire.Lib.Tests.dll
+C:\Github\Solitaire\Solitaire\Tests\Solitaire.Lib.Tests\Solitaire.Lib.Tests\obj\Debug\Solitaire.Lib.Tests.pdb

@@ -1,12 +1,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Solitaire.Web", "Web\Solitaire.Web\Solitaire.Web.csproj", "{AE63C3B4-6126-4B83-8CAB-460FB22A226B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Solitaire.Web.Tests", "Tests\Solitaire.Web.Tests\Solitaire.Web.Tests.csproj", "{F5744FD9-5F75-47F5-AEEA-921D294EED51}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Solitaire.Lib", "Lib\Solitaire.Lib\Solitaire.Lib\Solitaire.Lib.csproj", "{6AB74E50-428C-44F0-BB84-32D6E94B4D15}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{9DD808B1-0072-46C0-B6C1-4597C7873F3D}"
 EndProject
@@ -15,6 +13,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{CE6469E1-38C0-48F4-AF15-56E7ACE77981}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Solitaire.Lib.Tests", "Tests\Solitaire.Lib.Tests\Solitaire.Lib.Tests\Solitaire.Lib.Tests.csproj", "{0E600421-7056-4B30-B26A-8DA279183777}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Solitaire.Lib", "Lib\Solitaire.Lib\Solitaire.Lib.csproj", "{6AB74E50-428C-44F0-BB84-32D6E94B4D15}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,14 +30,14 @@ Global
 		{F5744FD9-5F75-47F5-AEEA-921D294EED51}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5744FD9-5F75-47F5-AEEA-921D294EED51}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5744FD9-5F75-47F5-AEEA-921D294EED51}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6AB74E50-428C-44F0-BB84-32D6E94B4D15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6AB74E50-428C-44F0-BB84-32D6E94B4D15}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6AB74E50-428C-44F0-BB84-32D6E94B4D15}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6AB74E50-428C-44F0-BB84-32D6E94B4D15}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0E600421-7056-4B30-B26A-8DA279183777}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0E600421-7056-4B30-B26A-8DA279183777}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E600421-7056-4B30-B26A-8DA279183777}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E600421-7056-4B30-B26A-8DA279183777}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AB74E50-428C-44F0-BB84-32D6E94B4D15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AB74E50-428C-44F0-BB84-32D6E94B4D15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AB74E50-428C-44F0-BB84-32D6E94B4D15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AB74E50-428C-44F0-BB84-32D6E94B4D15}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -45,7 +45,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{AE63C3B4-6126-4B83-8CAB-460FB22A226B} = {CE6469E1-38C0-48F4-AF15-56E7ACE77981}
 		{F5744FD9-5F75-47F5-AEEA-921D294EED51} = {9DD808B1-0072-46C0-B6C1-4597C7873F3D}
-		{6AB74E50-428C-44F0-BB84-32D6E94B4D15} = {C3C1E1FE-06D8-47E1-B83F-6F751AC3F104}
 		{0E600421-7056-4B30-B26A-8DA279183777} = {9DD808B1-0072-46C0-B6C1-4597C7873F3D}
+		{6AB74E50-428C-44F0-BB84-32D6E94B4D15} = {C3C1E1FE-06D8-47E1-B83F-6F751AC3F104}
 	EndGlobalSection
 EndGlobal
