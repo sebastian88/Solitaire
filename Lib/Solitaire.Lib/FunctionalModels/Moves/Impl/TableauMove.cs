@@ -1,4 +1,6 @@
-﻿using Solitaire.Lib.Models;
+﻿using Solitaire.Lib.Config;
+using Solitaire.Lib.Context;
+using Solitaire.Lib.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace Solitaire.Lib.FunctionalModels.Moves.Impl
 {
-  public class TableauMove : BaseMove, Move
+  public abstract class TableauMove : BaseMove
   {
-    public TableauMove(Card topCard, Card bottomCard)
-      : base (topCard, bottomCard)
+    public TableauMove(UnitOfWork unitOfWork, Card topCard, Card bottomCard)
+      : base (unitOfWork, topCard, bottomCard)
     {
     }
 

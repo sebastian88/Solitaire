@@ -1,4 +1,7 @@
-﻿using Solitaire.Lib.Models;
+﻿using Solitaire.Lib.Config;
+using Solitaire.Lib.Context;
+using Solitaire.Lib.IoC;
+using Solitaire.Lib.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +12,13 @@ namespace Solitaire.Lib.FunctionalModels.Moves.Impl
 {
   public abstract class BaseMove
   {
-
+    protected UnitOfWork _unitOfWork;
     protected Card _topCard;
     protected Card _bottomCard;
 
-    public BaseMove(Card topcard, Card bottomCard)
+    public BaseMove(UnitOfWork unitOfWork, Card topcard, Card bottomCard)
     {
+      _unitOfWork = unitOfWork;
       _topCard = topcard;
       _bottomCard = bottomCard;
     }

@@ -82,5 +82,14 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
 
       Assert.IsNotNull(table.GetFoundationStack(0));
     }
+
+    public void AvailableMoves_CountMoves_IsNotNull()
+    {
+      Table table = new Table();
+
+      table.Deal(GenerateDeck());
+
+      Assert.IsNotNull(table.GetAvailableMoves());
+    }
   }
 }
