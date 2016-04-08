@@ -21,8 +21,7 @@ namespace Solitaire.Lib.Services
     public List<Card> GenerateShuffledCards()
     {
       List<Card> deck = GenerateDeck();
-      ShuffleCardsMultipleTimes(deck);
-      return deck;
+      return ShuffleCardsMultipleTimes(deck);
     }
 
     private List<Card> GenerateDeck()
@@ -35,18 +34,21 @@ namespace Solitaire.Lib.Services
       return cards;
     }
 
-    private void ShuffleCardsMultipleTimes(List<Card> cards)
+    private List<Card> ShuffleCardsMultipleTimes(List<Card> cards)
     {
       for(int i = 0; i < NUMBER_OF_TIMES_TO_SHUFFLE; i++)
-        ShuffleCards(cards);
+        cards = ShuffleCards(cards);
+      return cards;
     }
 
-    private void ShuffleCards(List<Card> cards)
+    private List<Card> ShuffleCards(List<Card> cards)
     {
       List<Card> shuffledCards = new List<Card>();
 
-      for (int i = 0; i < cards.Count; i++)
+      while(cards.Count > 0)
         shuffledCards.Add(RemoveRandomCard(cards));
+
+      return shuffledCards;
     }
 
     private Card RemoveRandomCard(List<Card> cards)

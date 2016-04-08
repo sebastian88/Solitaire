@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Solitaire.Lib.FunctionalModels.Moves
+namespace Solitaire.Lib.Context
 {
-  public interface Move
+  public interface UnitOfWork
   {
-    bool IsValid();
-    int GetValue();
+    Solitaire.Lib.Config.AppConfig Config { get; }
   }
 }

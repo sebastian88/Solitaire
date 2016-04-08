@@ -3,12 +3,16 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Solitaire.Lib.FunctionalModels.Moves;
 using Solitaire.Lib.FunctionalModels.Moves.Impl;
 using Solitaire.Lib.Models;
+using Solitaire.Lib.Context;
+using Solitaire.Lib.IoC;
 
 namespace Solitaire.Lib.Tests.FunctionalModelsTest
 {
   [TestClass]
   public class FoundationMoveTests
   {
+    private UnitOfWork _unitOfWork;
+
     private Card _TwoDiamonds;
     private Card _eightSpades;
     private Card _nineSpades;
@@ -20,6 +24,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
 
     public FoundationMoveTests()
     {
+      _unitOfWork = IoCContainer.GetUnitOfWork();
     }
 
     private void Setup()
@@ -39,7 +44,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     {
       Setup();
 
-      FoundationMove move = new FoundationMove(_eightSpades, _tenClubs);
+      FoundationMove move = new HandToFoundationMove(_unitOfWork, _eightSpades, _tenClubs);
 
       Assert.AreEqual(move.IsValid(), false);
     }
@@ -49,7 +54,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     {
       Setup();
 
-      FoundationMove move = new FoundationMove(_nineHearts, _eightSpades);
+      FoundationMove move = new HandToFoundationMove(_unitOfWork, _nineHearts, _eightSpades);
 
       Assert.AreEqual(move.IsValid(), false);
     }
@@ -59,7 +64,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     {
       Setup();
 
-      FoundationMove move = new FoundationMove(_nineSpades, _eightSpades);
+      FoundationMove move = new HandToFoundationMove(_unitOfWork, _nineSpades, _eightSpades);
 
       Assert.AreEqual(move.IsValid(), true);
     }
@@ -69,7 +74,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     {
       Setup();
 
-      FoundationMove move = new FoundationMove(_tenHearts, _nineHearts);
+      FoundationMove move = new HandToFoundationMove(_unitOfWork, _tenHearts, _nineHearts);
 
       Assert.AreEqual(move.IsValid(), true);
     }
@@ -79,7 +84,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     {
       Setup();
 
-      FoundationMove move = new FoundationMove(_TwoDiamonds, _jackDiamonds);
+      FoundationMove move = new HandToFoundationMove(_unitOfWork, _TwoDiamonds, _jackDiamonds);
 
       Assert.AreEqual(move.IsValid(), false);
     }
@@ -89,7 +94,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     {
       Setup();
 
-      FoundationMove move = new FoundationMove(_tenDiamonds, _jackDiamonds);
+      FoundationMove move = new HandToFoundationMove(_unitOfWork, _tenDiamonds, _jackDiamonds);
 
       Assert.AreEqual(move.IsValid(), false);
     }

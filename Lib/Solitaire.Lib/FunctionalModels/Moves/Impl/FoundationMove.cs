@@ -1,4 +1,6 @@
-﻿using Solitaire.Lib.Models;
+﻿using Solitaire.Lib.Config;
+using Solitaire.Lib.Context;
+using Solitaire.Lib.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace Solitaire.Lib.FunctionalModels.Moves.Impl
 {
-  public class FoundationMove : BaseMove, Move
+  public abstract class FoundationMove : BaseMove
   {
 
-    public FoundationMove(Card topcard, Card bottomCard)
-      : base(topcard, bottomCard)
+    public FoundationMove(UnitOfWork unitOfWork, Card topcard, Card bottomCard)
+      : base(unitOfWork, topcard, bottomCard)
     { }
 
     public bool IsValid()

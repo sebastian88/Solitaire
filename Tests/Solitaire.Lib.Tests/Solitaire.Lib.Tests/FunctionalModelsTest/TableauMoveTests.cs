@@ -3,12 +3,16 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Solitaire.Lib.FunctionalModels.Moves;
 using Solitaire.Lib.FunctionalModels.Moves.Impl;
 using Solitaire.Lib.Models;
+using Solitaire.Lib.Context;
+using Solitaire.Lib.IoC;
 
 namespace Solitaire.Lib.Tests.FunctionalModelsTest
 {
   [TestClass]
   public class TableauMoveTests
   {
+    private UnitOfWork _unitOfWork;
+
     private Card _eightSpades;
     private Card _nineSpades;
     private Card _nineHearts;
@@ -17,6 +21,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
 
     public TableauMoveTests()
     {
+      _unitOfWork = IoCContainer.GetUnitOfWork();
     }
 
     private void Setup()
@@ -33,7 +38,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     {
       Setup();
 
-      TableauMove move = new TableauMove(_nineSpades, _tenHearts);
+      TableauMove move = new HandToTableauMove(_unitOfWork, _nineSpades, _tenHearts);
 
       Assert.AreEqual(move.IsValid(), true);
     }
@@ -43,7 +48,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     {
       Setup();
 
-      TableauMove move = new TableauMove(_tenHearts, _nineSpades);
+      TableauMove move = new HandToTableauMove(_unitOfWork, _tenHearts, _nineSpades);
 
       Assert.AreEqual(move.IsValid(), false);
     }
@@ -53,7 +58,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     {
       Setup();
 
-      TableauMove move = new TableauMove(_eightSpades, _tenClubs);
+      TableauMove move = new HandToTableauMove(_unitOfWork, _eightSpades, _tenClubs);
 
       Assert.AreEqual(move.IsValid(), false);
     }
@@ -61,9 +66,10 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     [TestMethod]
     public void IsValid_NineSpadesOnTenClubs_ReturnsFalse()
     {
+
       Setup();
 
-      TableauMove move = new TableauMove(_nineSpades, _tenClubs);
+      TableauMove move = new HandToTableauMove(_unitOfWork, _nineSpades, _tenClubs);
 
       Assert.AreEqual(move.IsValid(), false);
     }

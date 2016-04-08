@@ -20,8 +20,13 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void TestMethod1()
+    public void RunGame_ReachesEnd_NoPossibleMoves()
     {
+      Game game = GenerateGame();
+
+      game.Run();
+
+      Assert.IsTrue(game.NoRemainingMoves());
     }
   }
 }

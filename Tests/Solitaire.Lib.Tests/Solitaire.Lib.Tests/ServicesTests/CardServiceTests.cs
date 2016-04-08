@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Solitaire.Lib.Models;
 using Solitaire.Lib.Services;
+using System.Collections.Generic;
 
 namespace Solitaire.Lib.Tests.ServicesTests
 {
@@ -12,6 +13,14 @@ namespace Solitaire.Lib.Tests.ServicesTests
     public CardServiceTests()
     {
       _cardService = new CardService();
+    }
+
+    [TestMethod]
+    public void GenerateShuffledCards_CountCards_Is52()
+    {
+      List<Card> cards = _cardService.GenerateShuffledCards();
+
+      Assert.IsTrue(cards.Count == 52);
     }
   }
 }
