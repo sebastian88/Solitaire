@@ -3,12 +3,20 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using Solitaire.Lib.Models;
 using Solitaire.Lib.FunctionalModels.Tables;
+using Solitaire.Lib.Context;
+using Solitaire.Lib.IoC;
 
 namespace Solitaire.Lib.Tests.FunctionalModelsTest
 {
   [TestClass]
   public class TableTests
   {
+    UnitOfWork _unitOfWork;
+    public TableTests()
+    {
+      _unitOfWork = IoCContainer.GetUnitOfWork();
+    }
+
     private List<Card> GenerateDeck()
     {
       List<Card> cards = new List<Card>();
@@ -24,9 +32,9 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void Deal_CheckFirstStackCount_ReturnsOne()
+    public void TableTests_Deal_CheckFirstStackCount_ReturnsOne()
     {
-      Table table = new Table();
+      Table table = new Table(_unitOfWork);
 
       table.Deal(GenerateDeck());
 
@@ -34,9 +42,9 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void Deal_CheckSecondStackCount_ReturnsTwo()
+    public void TableTests_Deal_CheckSecondStackCount_ReturnsTwo()
     {
-      Table table = new Table();
+      Table table = new Table(_unitOfWork);
 
       table.Deal(GenerateDeck());
 
@@ -44,9 +52,9 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void Deal_CheckSeventhStackCount_ReturnsSeven()
+    public void TableTests_Deal_CheckSeventhStackCount_ReturnsSeven()
     {
-      Table table = new Table();
+      Table table = new Table(_unitOfWork);
 
       table.Deal(GenerateDeck());
 
@@ -54,9 +62,9 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void Deal_CheckFirstStackFirstCard_IsFaceUp()
+    public void TableTests_Deal_CheckFirstStackFirstCard_IsFaceUp()
     {
-      Table table = new Table();
+      Table table = new Table(_unitOfWork);
 
       table.Deal(GenerateDeck());
 
@@ -64,9 +72,9 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void Deal_CheckHandCount_ReturnsTwentyFour()
+    public void TableTests_Deal_CheckHandCount_ReturnsTwentyFour()
     {
-      Table table = new Table();
+      Table table = new Table(_unitOfWork);
 
       table.Deal(GenerateDeck());
 
@@ -74,22 +82,33 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void Deal_CheckFirstFoundationStack_IsNotNull()
+    public void TableTests_Deal_CheckFirstFoundationStack_IsNotNull()
     {
-      Table table = new Table();
+      Table table = new Table(_unitOfWork);
 
       table.Deal(GenerateDeck());
 
       Assert.IsNotNull(table.GetFoundationStack(0));
     }
 
-    public void AvailableMoves_CountMoves_IsNotNull()
+    [TestMethod]
+    public void TableTests_AvailableMoves_CountMoves_IsNotNull()
     {
-      Table table = new Table();
+      Table table = new Table(_unitOfWork);
 
       table.Deal(GenerateDeck());
 
       Assert.IsNotNull(table.GetAvailableMoves());
+    }
+
+    [TestMethod]
+    public void TableTests_Table_GetAvailableMoves_CountMoves_IsSeven()
+    {
+      Table table = new Table(_unitOfWork);
+
+      table.Deal(GenerateDeck());
+
+      Assert.AreEqual(4, table.GetAvailableMoves());
     }
   }
 }

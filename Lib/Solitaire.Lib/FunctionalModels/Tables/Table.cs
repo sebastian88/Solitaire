@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 using Solitaire.Lib.FunctionalModels.Hands;
 using Solitaire.Lib.FunctionalModels.Stacks.Impl;
 using Solitaire.Lib.FunctionalModels.Moves;
+using Solitaire.Lib.FunctionalModels.Moves.Impl;
+using Solitaire.Lib.Context;
+using Solitaire.Lib.FunctionalModels.Stacks;
 
 namespace Solitaire.Lib.FunctionalModels.Tables
 {
@@ -15,20 +18,22 @@ namespace Solitaire.Lib.FunctionalModels.Tables
     private readonly int NUMBER_OF_TABLEAU_STACKS = 7;
     private readonly int NUMBER_OF_FOUNDATION_STACKS = 4;
 
-
+    private UnitOfWork _unitOfWork;
     private BaseTable _initialTable;
+    List<Move> _availableMoves;
     private List<Move> _movesTaken;
     private BaseTable _currentTable;
 
-    public Table()
+    public Table(UnitOfWork unitOfWork)
     {
+      _unitOfWork = unitOfWork;
       InstanciateTables();
       InstanciateTableau();
       InstanciateFoundation();
       instanciateHand();
     }
-    public Table(List<Card> cards)
-      :this()
+    public Table(UnitOfWork unitOfWork, List<Card> cards)
+      :this(unitOfWork)
     {
       Deal(cards);
     }
@@ -99,8 +104,74 @@ namespace Solitaire.Lib.FunctionalModels.Tables
 
     public List<Move> GetAvailableMoves()
     {
-      return null;
+      _availableMoves = new List<Move>();
+
+      PopulateAvailableMovesForTableau();
+
+      PopulateAvailableMovesfromHand();
+
+      return _availableMoves;
     }
+
+    private void PopulateAvailableMovesForTableau()
+    {
+      foreach (TableauStack tableauStack in _currentTable.Tableau)
+        AvailableMovesFromTableauCard(tableauStack.ViewTopCard());
+    }
+
+    private void PopulateAvailableMovesfromHand()
+    {
+      Card firstHandCard = _currentTable.Hand.ViewTopCard();
+      CheckCardInHandAndDealHand();
+      while (firstHandCard != _currentTable.Hand.ViewTopCard())
+        CheckCardInHandAndDealHand();
+    }
+
+    private void CheckCardInHandAndDealHand()
+    {
+      AvailableMovesFromHandCard(_currentTable.Hand.ViewTopCard());
+      _currentTable.Hand.Deal();
+    }
+
+    private void AvailableMovesFromTableauCard(Card card)
+    {
+      AvailableMovesForCardOntoFoundation<TableauToFoundationMove>(card);
+      AvailableMovesForCardOntoTableau<TableauToTableauMove>(card);
+    }
+
+    private void AvailableMovesFromHandCard(Card card)
+    {
+      AvailableMovesForCardOntoFoundation<HandToFoundationMove>(card);
+      AvailableMovesForCardOntoTableau<HandToTableauMove>(card);
+    }
+
+    private void AvailableMovesForCardOntoFoundation<T>(Card card) where T : FoundationMove
+    {
+      foreach (FoundationStack foundationStack in _currentTable.Foundation)
+      {
+        Move move = (Move)Activator.CreateInstance(typeof(T), _unitOfWork, card, foundationStack.ViewTopCard());
+        if (move.IsValid())
+          AddToAvailableMoves(move);
+      }
+    }
+
+    private void AvailableMovesForCardOntoTableau<T>(Card card) where T : TableauMove
+    {
+      foreach (TableauStack foundationStack in _currentTable.Tableau)
+      {
+        Move move = (Move)Activator.CreateInstance(typeof(T), _unitOfWork, card, foundationStack.ViewTopCard());
+        if (move.IsValid())
+          AddToAvailableMoves(move);
+      }
+    }
+
+    private void AddToAvailableMoves(Move move)
+    {
+      if (_availableMoves == null)
+        _availableMoves = new List<Move>();
+      _availableMoves.Add(move);
+    }
+
 
     public void MakeMove(Move move)
     {
@@ -117,14 +188,16 @@ namespace Solitaire.Lib.FunctionalModels.Tables
     {
       int countFlippedCards = 0;
       foreach (TableauStack tableauStack in _currentTable.Tableau)
-      {
-        if (!tableauStack.ViewTopCard().IsFaceUp)
-        {
-          tableauStack.ViewTopCard().IsFaceUp = true;
-          countFlippedCards++;
-        }
-      }
+        countFlippedCards = TurnCardFaceUpIfFaceDown(tableauStack) ? countFlippedCards + 1 : countFlippedCards;
       return countFlippedCards;
+    }
+
+    private bool TurnCardFaceUpIfFaceDown(TableauStack tableauStack)
+    {
+      bool isCardTurned = false;
+      if (!tableauStack.ViewTopCard().IsFaceUp)
+        tableauStack.ViewTopCard().IsFaceUp = isCardTurned = true;
+      return isCardTurned;
     }
 
     private void DealHand(List<Card> cards)

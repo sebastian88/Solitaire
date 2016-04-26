@@ -40,7 +40,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void IsValid_EightSpadesOnTenClubs_ReturnFalse()
+    public void FoundationMoveTests_IsValid_EightSpadesOnTenClubs_ReturnFalse()
     {
       Setup();
 
@@ -50,7 +50,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void IsValid_NineHeartsOnEightSpades_ReturnFalse()
+    public void FoundationMoveTests_IsValid_NineHeartsOnEightSpades_ReturnFalse()
     {
       Setup();
 
@@ -60,7 +60,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void IsValid_NineSpadesOnEightSpades_ReturnsTrue()
+    public void FoundationMoveTests_IsValid_NineSpadesOnEightSpades_ReturnsTrue()
     {
       Setup();
 
@@ -70,7 +70,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void IsValid_TenHeartsOnNineHearts_ReturnTrue()
+    public void FoundationMoveTests_IsValid_TenHeartsOnNineHearts_ReturnTrue()
     {
       Setup();
 
@@ -80,7 +80,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void IsValid_TwoDiamondsOnJackDiamonds_ReturnFalse()
+    public void FoundationMoveTests_IsValid_TwoDiamondsOnJackDiamonds_ReturnFalse()
     {
       Setup();
 
@@ -90,7 +90,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void IsValid_TenDiamondsOnJackDiamonds_ReturnFalse()
+    public void FoundationMoveTests_IsValid_TenDiamondsOnJackDiamonds_ReturnFalse()
     {
       Setup();
 

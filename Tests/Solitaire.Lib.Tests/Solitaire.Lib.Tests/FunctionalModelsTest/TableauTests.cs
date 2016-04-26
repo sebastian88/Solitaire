@@ -27,7 +27,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void PopTopCard_EmptyStack_IsNull()
+    public void TableauTests_PopTopCard_EmptyStack_IsNull()
     {
       TableauStack tableau = new TableauStack(new List<Models.Card>());
 
@@ -37,7 +37,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void PopTopCard_TakeTopCard_IsFiveClubs()
+    public void TableauTests_PopTopCard_TakeTopCard_IsFiveClubs()
     {
       TableauStack tableau = Setup();
 
@@ -48,7 +48,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void PopTopCard_TakeTopCard_IsFaceUpCard()
+    public void TableauTests_PopTopCard_TakeTopCard_IsFaceUpCard()
     {
       TableauStack tableau = Setup();
 
@@ -58,7 +58,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void PopTopCard_TakeSecondCard_IsQueenSpades()
+    public void TableauTests_PopTopCard_TakeSecondCard_IsQueenSpades()
     {
       TableauStack tableau = Setup();
 
@@ -70,7 +70,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void PopTopCard_TakeSecondCard_IsFaceUp()
+    public void TableauTests_PopTopCard_TakeSecondCard_IsFaceUp()
     {
       TableauStack tableau = Setup();
 
@@ -81,7 +81,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void PopTopCard_TakeFourthCard_IsSixHearts()
+    public void TableauTests_PopTopCard_TakeFourthCard_IsSixHearts()
     {
       TableauStack tableau = Setup();
 
@@ -95,7 +95,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void PopTopCard_TakeFourthCard_IsFaceUp()
+    public void TableauTests_PopTopCard_TakeFourthCard_IsFaceUp()
     {
       TableauStack tableau = Setup();
 
@@ -108,7 +108,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void PopTopCard_TakeSixthCard_IsNull()
+    public void TableauTests_PopTopCard_TakeSixthCard_IsNull()
     {
       TableauStack tableau = Setup();
 
@@ -123,7 +123,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void ViewTopCard_EmptyStack_IsNull()
+    public void TableauTests_ViewTopCard_EmptyStack_IsNull()
     {
       TableauStack tableau = new TableauStack(new List<Models.Card>());
 
@@ -133,7 +133,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void ViewTopCard_ViewFirstCard_IsFiveClubs()
+    public void TableauTests_ViewTopCard_ViewFirstCard_IsFiveClubs()
     {
       TableauStack tableau = Setup();
 
@@ -144,7 +144,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void ViewTopCard_ViewFifthCard_IsEightHearts()
+    public void TableauTests_ViewTopCard_ViewFifthCard_IsEightHearts()
     {
       TableauStack tableau = Setup();
 
@@ -159,7 +159,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void ViewTopCard_ViewFifthCard_IsFaceDown()
+    public void TableauTests_ViewTopCard_ViewFifthCard_IsFaceDown()
     {
       TableauStack tableau = Setup();
 
@@ -173,7 +173,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void ViewTopCard_ViewSixthCard_IsNull()
+    public void TableauTests_ViewTopCard_ViewSixthCard_IsNull()
     {
       TableauStack tableau = Setup();
 
@@ -188,7 +188,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void ViewTopCard_ViewTopCardTwice_IsFiveClubs()
+    public void TableauTests_ViewTopCard_ViewTopCardTwice_IsFiveClubs()
     {
       TableauStack tableau = Setup();
 
@@ -200,7 +200,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void IsEmpty_EmptyStack_IsTrue()
+    public void TableauTests_IsEmpty_EmptyStack_IsTrue()
     {
       TableauStack tableau = new TableauStack(new List<Models.Card>());
 
@@ -210,7 +210,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void IsEmpty_FullStack_IsFalse()
+    public void TableauTests_IsEmpty_FullStack_IsFalse()
     {
       TableauStack tableau = Setup();
 

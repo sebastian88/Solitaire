@@ -18,8 +18,21 @@ namespace Solitaire.Lib.FunctionalModels.Moves.Impl
 
     public bool IsValid()
     {
-      return IsOfSameSuit() && IsInSequence()
-        && IsTopCardOfHigherValueThanBottomCard();
+      if (IsFirstCardOnFoundation())
+        return TopCardIsAce();
+      else
+        return IsOfSameSuit() && IsInSequence()
+          && IsTopCardOfHigherValueThanBottomCard();
+    }
+
+    private bool IsFirstCardOnFoundation()
+    {
+      return _bottomCard == null;
+    }
+
+    private bool TopCardIsAce()
+    {
+      return _topCard.Value == Enums.Values.Ace;
     }
 
     private bool IsOfSameSuit()

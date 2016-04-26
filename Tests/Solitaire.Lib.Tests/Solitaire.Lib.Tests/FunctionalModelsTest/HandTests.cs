@@ -30,7 +30,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void Deal_GetThirdCard_IsJackHearts()
+    public void HandTests_Deal_GetThirdCard_IsJackHearts()
     {
       Setup();
       
@@ -41,7 +41,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void Deal_GetSixthCard_IsTwoSpades()
+    public void HandTests_Deal_GetSixthCard_IsTwoSpades()
     {
       Setup();
       
@@ -53,7 +53,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void Deal_GetNinthCard_IsSixHearts()
+    public void HandTests_Deal_GetNinthCard_IsSixHearts()
     {
       Setup();
       
@@ -66,7 +66,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void Deal_GetTwelthCard_IsEightHearth()
+    public void HandTests_Deal_GetTwelthCard_IsEightHearth()
     {
       Setup();
       
@@ -80,7 +80,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void TakeCurrentCard_TakeThirdCard_IsJackHearts()
+    public void HandTests_TakeCurrentCard_TakeThirdCard_IsJackHearts()
     {
       Setup();
 
@@ -91,7 +91,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void TakeCurrentCard_TakeThirdAndSixthCard_IsTwoSpades()
+    public void HandTests_TakeCurrentCard_TakeThirdAndSixthCard_IsTwoSpades()
     {
       Setup();
 
@@ -104,7 +104,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void TakeCurrentCard_TakeFirstCardDealFourTime_IsKingClubs()
+    public void HandTests_TakeCurrentCard_TakeFirstCardDealFourTime_IsKingClubs()
     {
       Setup();
 
@@ -120,7 +120,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void TakeCurrentCard_TakeThreeCards_IsTwoSpades()
+    public void HandTests_TakeCurrentCard_TakeThreeCards_IsTwoSpades()
     {
       Setup();
 
@@ -135,7 +135,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void TakeCurrentCard_TakeAllBut2Cards_IsEightHearts()
+    public void HandTests_TakeCurrentCard_TakeAllBut2Cards_IsEightHearts()
     {
       Setup();
 
@@ -156,7 +156,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void TakeCurrentCard_TakeAllBut1Cards_IsAceClubs()
+    public void HandTests_TakeCurrentCard_TakeAllBut1Cards_IsAceClubs()
     {
       Setup();
 
@@ -178,7 +178,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void TakeCurrentCard_DealWithTwoCards_IsEightHearts()
+    public void HandTests_TakeCurrentCard_DealWithTwoCards_IsEightHearts()
     {
       Setup();
 
@@ -200,7 +200,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void TakeCurrentCard_TakeCardFromFirstDealThenDealRound_IsKingClubs()
+    public void HandTests_TakeCurrentCard_TakeCardFromFirstDealThenDealRound_IsKingClubs()
     {
       Setup();
       
@@ -217,7 +217,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void TakeCurrentCard_ReduceToFourCardsThenReDeal_IsAceClubs()
+    public void HandTests_TakeCurrentCard_ReduceToFourCardsThenReDeal_IsAceClubs()
     {
       Setup();
 
@@ -237,7 +237,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void TakeCurrentCard_ReduceToFourCardsThenReDealToEnd_IsEightHearts()
+    public void HandTests_TakeCurrentCard_ReduceToFourCardsThenReDealToEnd_IsEightHearts()
     {
       Setup();
 

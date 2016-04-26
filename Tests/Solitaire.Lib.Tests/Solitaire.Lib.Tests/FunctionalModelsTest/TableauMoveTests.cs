@@ -34,7 +34,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void IsValid_NineSpadesOnTenHearts_ReturnsTrue()
+    public void TableauMoveTests_IsValid_NineSpadesOnTenHearts_ReturnsTrue()
     {
       Setup();
 
@@ -44,7 +44,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void IsValid_TenHeartsOnNineSpades_ReturnsFalse()
+    public void TableauMoveTests_IsValid_TenHeartsOnNineSpades_ReturnsFalse()
     {
       Setup();
 
@@ -54,7 +54,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void IsValid_EightSpadesOnTenClubs_ReturnsFalse()
+    public void TableauMoveTests_IsValid_EightSpadesOnTenClubs_ReturnsFalse()
     {
       Setup();
 
@@ -64,7 +64,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void IsValid_NineSpadesOnTenClubs_ReturnsFalse()
+    public void TableauMoveTests_IsValid_NineSpadesOnTenClubs_ReturnsFalse()
     {
 
       Setup();
