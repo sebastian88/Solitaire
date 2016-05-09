@@ -3,11 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Solitaire.Lib.Config;
 
 namespace Solitaire.Lib.Context
 {
-  public interface UnitOfWork
+  public class UnitOfWork : Interfaces.IUnitOfWork
   {
-    Solitaire.Lib.Config.AppConfig Config { get; }
+    private AppConfig _config;
+    public AppConfig Config
+    {
+      get
+      {
+        if (_config == null)
+          _config = new Solitaire.Lib.Config.AppConfig();
+        return _config;
+      }
+    }
   }
 }

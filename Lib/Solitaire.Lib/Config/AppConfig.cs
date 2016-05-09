@@ -6,11 +6,19 @@ using System.Threading.Tasks;
 
 namespace Solitaire.Lib.Config
 {
-  public interface AppConfig
+  public class AppConfig : Interfaces.IAppConfig
   {
-    int TableauToTableauMoveValue { get; }
-    int TableauToFoundationMoveValue { get; }
-    int HandToFoundationMoveValue { get; }
-    int HandToTableauMoveValue { get; }
+    public int TableauToTableauMoveValue { get; private set; }
+    public int TableauToFoundationMoveValue { get; private set; }
+    public int HandToFoundationMoveValue { get; private set; }
+    public int HandToTableauMoveValue { get; private set; }
+
+    public AppConfig()
+    {
+      TableauToTableauMoveValue = 6;
+      TableauToFoundationMoveValue = 6;
+      HandToFoundationMoveValue = 6;
+      HandToTableauMoveValue = 6;
+    }
   }
 }

@@ -40,32 +40,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Comparers\MoveComparer.cs" />
+    <Compile Include="Config\Interfaces\IAppConfig.cs" />
     <Compile Include="Config\AppConfig.cs" />
-    <Compile Include="Config\Impl\AppConfig.cs" />
-    <Compile Include="Context\Impl\UnitOfWork.cs" />
     <Compile Include="Context\UnitOfWork.cs" />
+    <Compile Include="Context\Interfaces\IUnitOfWork.cs" />
     <Compile Include="Enums\Enums.cs" />
-    <Compile Include="FunctionalModels\Games\Game.cs" />
-    <Compile Include="FunctionalModels\Hands\Hand.cs" />
-    <Compile Include="FunctionalModels\Moves\Impl\BaseMove.cs" />
-    <Compile Include="FunctionalModels\Moves\Impl\FoundationMove.cs" />
-    <Compile Include="FunctionalModels\Moves\Impl\HandToFoundationMove.cs" />
-    <Compile Include="FunctionalModels\Moves\Impl\HandToTableauMove.cs" />
-    <Compile Include="FunctionalModels\Moves\Impl\TableauMove.cs" />
-    <Compile Include="FunctionalModels\Moves\Impl\TableauToFoundationMove.cs" />
-    <Compile Include="FunctionalModels\Moves\Impl\TableauToTableauMove.cs" />
-    <Compile Include="FunctionalModels\Moves\Move.cs" />
-    <Compile Include="FunctionalModels\Stacks\Impl\BaseStack.cs" />
-    <Compile Include="FunctionalModels\Stacks\Impl\FoundationStack.cs" />
-    <Compile Include="FunctionalModels\Stacks\Impl\TableauStack.cs" />
-    <Compile Include="FunctionalModels\Stacks\PopableStack.cs" />
-    <Compile Include="FunctionalModels\Stacks\PushableStack.cs" />
-    <Compile Include="FunctionalModels\Tables\Table.cs" />
+    <Compile Include="Objects\Game.cs" />
+    <Compile Include="Objects\Hand.cs" />
+    <Compile Include="Objects\BaseMove.cs" />
+    <Compile Include="Objects\FoundationMove.cs" />
+    <Compile Include="Objects\HandToFoundationMove.cs" />
+    <Compile Include="Objects\HandToTableauMove.cs" />
+    <Compile Include="Objects\TableauMove.cs" />
+    <Compile Include="Objects\TableauToFoundationMove.cs" />
+    <Compile Include="Objects\TableauToTableauMove.cs" />
+    <Compile Include="Objects\Interfaces\IMove.cs" />
+    <Compile Include="Objects\BaseStack.cs" />
+    <Compile Include="Objects\FoundationStack.cs" />
+    <Compile Include="Objects\TableauStack.cs" />
+    <Compile Include="Objects\Interfaces\IPopableStack.cs" />
+    <Compile Include="Objects\Interfaces\IPushableStack.cs" />
+    <Compile Include="Objects\Table.cs" />
     <Compile Include="IoC\IoCContainer.cs" />
-    <Compile Include="Models\Card.cs" />
-    <Compile Include="Models\BaseTable.cs" />
+    <Compile Include="Objects\Card.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\CardService.cs" />
+    <Compile Include="Utils\CardUtils.cs" />
+    <Compile Include="Utils\TableUtils.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

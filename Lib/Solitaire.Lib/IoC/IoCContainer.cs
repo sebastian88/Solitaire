@@ -4,16 +4,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Solitaire.Lib.Context.Interfaces;
 
 namespace Solitaire.Lib.IoC
 {
   public class IoCContainer
   {
-    private static UnitOfWork _unitOfWork;
-    public static UnitOfWork GetUnitOfWork()
+    private static IUnitOfWork _unitOfWork;
+    public static IUnitOfWork GetUnitOfWork()
     {
       if(_unitOfWork == null)
-        _unitOfWork = new Solitaire.Lib.Context.Impl.UnitOfWork();
+        _unitOfWork = new UnitOfWork();
       return _unitOfWork;
     }
 

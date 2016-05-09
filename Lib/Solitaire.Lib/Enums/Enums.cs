@@ -10,6 +10,7 @@ namespace Solitaire.Lib
   {
     public enum Suits
     {
+      NotACard = 0,
       Hearts = 1,
       Clubs = 2,
       Diamonds = 3,
@@ -17,6 +18,7 @@ namespace Solitaire.Lib
     }
     public enum Values
     {
+      NotACard = 0,
       Ace = 1,
       Two = 2,
       Three = 3,
