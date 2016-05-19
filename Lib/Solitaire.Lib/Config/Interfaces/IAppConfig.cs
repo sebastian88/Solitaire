@@ -12,5 +12,6 @@ namespace Solitaire.Lib.Config.Interfaces
     int TableauToFoundationMoveValue { get; }
     int HandToFoundationMoveValue { get; }
     int HandToTableauMoveValue { get; }
+    int GameRecursionDepth { get; }
   }
 }

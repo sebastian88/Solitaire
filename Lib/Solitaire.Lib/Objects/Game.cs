@@ -4,17 +4,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Solitaire.Lib.Objects.Interfaces;
+using Solitaire.Lib.Context.Interfaces;
 
 namespace Solitaire.Lib.Objects
 {
   public class Game
   {
     private Table _table;
-    private List<IMove> _moves;
-    private List<List<IMove>> _branches;
+    private List<SearchTreeBranch> _branches;
+    private IUnitOfWork _unitOfWork;
 
-    public Game(Table table)
+    public Game(IUnitOfWork unitOfWork, List<Card> cards)
     {
+      _unitOfWork = unitOfWork;
+      _table = new Table(_unitOfWork, cards);
+    }
+
+    public Game(IUnitOfWork unitOfWork, Table table)
+    {
+      _unitOfWork = unitOfWork;
       _table = table;
     }
 
@@ -41,48 +49,54 @@ namespace Solitaire.Lib.Objects
 
     public List<IMove> GetBestMoveBranch()
     {
-      _branches = new List<List<IMove>>();
+      _branches = new List<SearchTreeBranch>();
       return PickBestMoveBranch();
     }
 
-    private void FindAllMoveBranchesRecursive(Table table)
+    private List<IMove> PickBestMoveBranch()
     {
-      if (table.GetAvailableMoves().Count > 0)
-        MakeAllAvailableMovesForTable(table);
-      else
-        _branches.Add(table.GetPastMoves());
+      FindAllMoveBranchesRecursive(_table, 0);
+      return GetBestBranch();
     }
 
-    private void MakeAllAvailableMovesForTable(Table table)
+   public List<IMove> GetBestBranch()
+    {
+      foreach (SearchTreeBranch branch in _branches)
+        branch.CalculateScore();
+
+      return _branches.OrderByDescending(x => x.Score).FirstOrDefault().Moves;
+    }
+
+    public List<SearchTreeBranch> GetAllBranches()
+    {
+      _branches = new List<SearchTreeBranch>();
+      FindAllMoveBranchesRecursive(_table, 0);
+      return _branches;
+    }
+
+    private void FindAllMoveBranchesRecursive(Table table, int currentDepth)
+    {
+      currentDepth++;
+      if (currentDepth <= _unitOfWork.Config.GameRecursionDepth
+        && table.GetAvailableMoves().Count > 0)
+        MakeAllAvailableMovesForTable(table, currentDepth);
+      else
+        AddToBranch(table.GetPastMoves());
+    }
+
+    private void MakeAllAvailableMovesForTable(Table table, int currentDepth)
     {
       foreach (IMove move in table.GetAvailableMoves())
       {
         Table clone = (Table)table.Clone();
         clone.MakeMove(move);
-        FindAllMoveBranchesRecursive(clone);
+        FindAllMoveBranchesRecursive(clone, currentDepth);
       }
     }
 
-    private List<IMove> PickBestMoveBranch()
+    private void AddToBranch(List<IMove> moves)
     {
-      FindAllMoveBranchesRecursive(_table);
-      List<IMove> bestBranch = new List<IMove>();
-      int bestBranchScore = 0;
-      foreach(List<IMove> branch in _branches)
-      {
-        int branchScore = 0;
-        foreach (IMove move in branch)
-        {
-          branchScore =+ move.GetValue();
-        }
-
-        if (bestBranchScore < branchScore)
-        {
-          bestBranch = branch;
-          bestBranchScore = branchScore;
-        }
-      }
-      return bestBranch;
+      _branches.Add(new SearchTreeBranch(moves));
     }
   }
 }

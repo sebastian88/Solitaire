@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Solitaire.Lib.Objects;
 using Solitaire.Lib.Objects.Interfaces;
 using System.Collections.Generic;
+using Solitaire.Lib.Tests.TestHelpers;
 
 namespace Solitaire.Lib.Tests.FunctionalModelsTest
 {
@@ -38,13 +39,13 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void TableauTests_PopTopCard_EmptyStack_IsNull()
+    public void TableauTests_PopTopCard_EmptyStack_IsNotACard()
     {
       TableauStack tableau = new TableauStack(new List<Card>());
 
       Card card = tableau.PopTopCard();
 
-      Assert.IsNull(card);
+      Assert.IsTrue(TestHelper.NOT_A_CARD.Equals(card));
     }
 
     [TestMethod]
@@ -119,7 +120,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void TableauTests_PopTopCard_TakeSixthCard_IsNull()
+    public void TableauTests_PopTopCard_TakeSixthCard_IsNotACard()
     {
       TableauStack tableau = Setup5Cards2FaceUp();
 
@@ -130,17 +131,17 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
       tableau.PopTopCard();
       Card card = tableau.PopTopCard();
 
-      Assert.IsNull(card);
+      Assert.IsTrue(TestHelper.NOT_A_CARD.Equals(card));
     }
 
     [TestMethod]
-    public void TableauTests_ViewTopCard_EmptyStack_IsNull()
+    public void TableauTests_ViewTopCard_EmptyStack_IsNotACard()
     {
       TableauStack tableau = new TableauStack(new List<Card>());
 
       Card card = tableau.ViewTopCard();
 
-      Assert.IsNull(card);
+      Assert.IsTrue(TestHelper.NOT_A_CARD.Equals(card));
     }
 
     [TestMethod]
@@ -184,7 +185,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     }
 
     [TestMethod]
-    public void TableauTests_ViewTopCard_ViewSixthCard_IsNull()
+    public void TableauTests_ViewTopCard_ViewSixthCard_IsNotACard()
     {
       TableauStack tableau = Setup5Cards2FaceUp();
 
@@ -195,7 +196,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
       tableau.PopTopCard();
       Card card = tableau.ViewTopCard();
 
-      Assert.IsNull(card);
+      Assert.IsTrue(TestHelper.NOT_A_CARD.Equals(card));
     }
 
     [TestMethod]
@@ -237,7 +238,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
 
       Card card = tableau.ViewFirstFaceUpCard();
 
-      Assert.IsNull(card);
+      Assert.IsTrue(TestHelper.NOT_A_CARD.Equals(card));
     }
 
     [TestMethod]

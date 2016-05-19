@@ -308,5 +308,16 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
       Assert.AreEqual(TestHelper.SIX_HEARTS.SuitInt, card.SuitInt);
       Assert.AreEqual(TestHelper.SIX_HEARTS.ValueInt, card.ValueInt);
     }
+
+    [TestMethod]
+    public void HandTests_RemoveCard_ViewTopCardInHand_IsCardBehindRemovedCard()
+    {
+      Setup();
+
+      Card card = _hand.RemoveCard(TestHelper.TWO_SPADES);
+
+      Assert.AreEqual(TestHelper.SIX_CLUBS.SuitInt, _hand.ViewTopCard().SuitInt);
+      Assert.AreEqual(TestHelper.SIX_CLUBS.ValueInt, _hand.ViewTopCard().ValueInt);
+    }
   }
 }

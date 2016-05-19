@@ -25,7 +25,7 @@ namespace Solitaire.Lib.Tests.ComparerTests
 
     public MoveComparerTests()
     {
-      _unitOfWork = IoCContainer.GetUnitOfWork();
+      _unitOfWork = IoCContainer.GetTestUnitOfWork();
     }
 
     private MoveComparer Setup()
@@ -44,7 +44,7 @@ namespace Solitaire.Lib.Tests.ComparerTests
     {
       MoveComparer moveComparer = Setup();
 
-      IMove firstMove = new HandToFoundationMove(_unitOfWork, _eightSpades, _nineHearts);
+      IMove firstMove =  new HandToFoundationMove(_unitOfWork, _eightSpades, _nineHearts);
       IMove secondMove = new HandToFoundationMove(_unitOfWork, _eightSpades, _nineHearts);
 
       Assert.IsTrue(moveComparer.Equals(firstMove, secondMove));
@@ -59,6 +59,54 @@ namespace Solitaire.Lib.Tests.ComparerTests
       IMove secondMove = new HandToFoundationMove(_unitOfWork, _tenHearts, _nineHearts);
       
       Assert.IsFalse(moveComparer.Equals(firstMove, secondMove));
+    }
+
+    [TestMethod]
+    public void MoveComparerTests_Equals_ListOfMovesOneIsMatch_IsTrue()
+    {
+      MoveComparer moveComparer = Setup();
+
+      List<IMove> moves = new List<IMove>()
+      {
+        new HandToFoundationMove(_unitOfWork, _nineHearts, _nineSpades),
+        new HandToFoundationMove(_unitOfWork, _tenHearts, _nineHearts),
+        new HandToFoundationMove(_unitOfWork, _eightSpades, _nineHearts),
+        new HandToFoundationMove(_unitOfWork, _eightSpades, _nineHearts)
+      };
+
+      Assert.IsTrue(moves.Contains<IMove>(new HandToFoundationMove(_unitOfWork, _eightSpades, _nineHearts), moveComparer));
+    }
+
+    [TestMethod]
+    public void MoveComparerTests_Equals_ListOfMovesFirstIsMatch_IsTrue()
+    {
+      MoveComparer moveComparer = Setup();
+
+      List<IMove> moves = new List<IMove>()
+      {
+        new HandToFoundationMove(_unitOfWork, _nineHearts, _nineSpades),
+        new HandToFoundationMove(_unitOfWork, _tenHearts, _nineHearts),
+        new HandToFoundationMove(_unitOfWork, _eightSpades, _nineHearts),
+        new HandToFoundationMove(_unitOfWork, _eightSpades, _nineHearts)
+      };
+
+      Assert.IsTrue(moves.Contains<IMove>(new HandToFoundationMove(_unitOfWork, _nineHearts, _nineSpades), moveComparer));
+    }
+
+    [TestMethod]
+    public void MoveComparerTests_Equals_ListOfMovesNoneAreMatch_IsFalse()
+    {
+      MoveComparer moveComparer = Setup();
+
+      List<IMove> moves = new List<IMove>()
+      {
+        new HandToFoundationMove(_unitOfWork, _nineHearts, _nineSpades),
+        new HandToFoundationMove(_unitOfWork, _tenHearts, _nineHearts),
+        new HandToFoundationMove(_unitOfWork, _eightSpades, _nineHearts),
+        new HandToFoundationMove(_unitOfWork, _eightSpades, _nineHearts)
+      };
+
+      Assert.IsFalse(moves.Contains<IMove>(new HandToFoundationMove(_unitOfWork, _nineHearts, _tenClubs), moveComparer));
     }
   }
 }

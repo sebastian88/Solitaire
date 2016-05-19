@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Solitaire.Lib.Config.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace Solitaire.Lib.Context.Interfaces
 {
   public interface IUnitOfWork
   {
-    Solitaire.Lib.Config.AppConfig Config { get; }
+    IAppConfig Config { get; }
   }
 }

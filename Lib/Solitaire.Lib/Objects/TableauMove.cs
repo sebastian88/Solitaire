@@ -14,18 +14,33 @@ namespace Solitaire.Lib.Objects
     {
     }
 
-    public bool IsValid()
+    public override bool IsValid()
     {
-      if (IsFirstCardOnStack())
-        return IsTopCardKing();
-      else
-        return IsTopCardOneValueLowerThanBottomCard()
-          && IsDifferentColourSuit();
+      bool isValid = false;
+      if (base.IsValid())
+      {
+        if (IsFirstCardOnStack())
+        {
+          isValid = IsTopCardKing();
+        }
+        else
+        {
+          isValid = IsTopCardOneValueLowerThanBottomCard()
+            && IsDifferentColourSuit()
+            && TopCardIsValidCard();
+        }
+      }
+      return isValid;
     }
 
     private bool IsTopCardKing()
     {
       return _topCard.Value == Enums.Values.King;
+    }
+
+    private bool TopCardIsValidCard()
+    {
+      return !_topCard.Equals(new Card(Enums.Values.NotACard, Enums.Suits.NotACard));
     }
 
     private bool IsTopCardOneValueLowerThanBottomCard()

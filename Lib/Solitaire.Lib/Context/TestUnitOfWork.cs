@@ -1,15 +1,15 @@
-﻿using System;
+﻿using Solitaire.Lib.Config;
+using Solitaire.Lib.Config.Interfaces;
+using Solitaire.Lib.Context.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Solitaire.Lib.Config;
-using Solitaire.Lib.Context.Interfaces;
-using Solitaire.Lib.Config.Interfaces;
 
 namespace Solitaire.Lib.Context
 {
-  public class UnitOfWork : IUnitOfWork
+  public class TestUnitOfWork : IUnitOfWork
   {
     private IAppConfig _config;
     public IAppConfig Config
@@ -17,7 +17,7 @@ namespace Solitaire.Lib.Context
       get
       {
         if (_config == null)
-          _config = new AppConfig();
+          _config = new TestConfig();
         return _config;
       }
     }

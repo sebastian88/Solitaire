@@ -16,13 +16,22 @@ namespace Solitaire.Lib.Objects
       : base(unitOfWork, topcard, bottomCard)
     { }
 
-    public bool IsValid()
+    public override bool IsValid()
     {
-      if (IsFirstCardOnStack())
-        return TopCardIsAce();
-      else
-        return IsOfSameSuit() && IsInSequence()
-          && IsTopCardOfHigherValueThanBottomCard();
+      bool isValid = false;
+      if (base.IsValid())
+      {
+        if (IsFirstCardOnStack())
+        {
+          isValid = TopCardIsAce();
+        }
+        else
+        {
+          isValid = IsOfSameSuit() && IsInSequence()
+            && IsTopCardOfHigherValueThanBottomCard();
+        }
+      }
+      return isValid;
     }
 
     private bool TopCardIsAce()

@@ -35,24 +35,35 @@ namespace Solitaire.Lib.Objects
       return _topCard;
     }
 
+    public virtual bool IsValid()
+    {
+      return AreBothCardsFaceUp();
+    }
+
+    protected bool AreBothCardsFaceUp()
+    {
+      return _topCard.IsFaceUp && _bottomCard.IsFaceUp;
+    }
+
     protected bool IsFirstCardOnStack()
     {
-      return _bottomCard == null;
+      return _bottomCard.Equals(new Card(Enums.Values.NotACard, Enums.Suits.NotACard));
     }
 
     protected bool IsInSequence()
     {
       return Math.Abs(_topCard.ValueInt - _bottomCard.ValueInt) == 1;
     }
+    
     public object Clone()
     {
       var clone = this.MemberwiseClone();
-      HandleCloned(clone);
       return clone;
     }
 
-    protected virtual void HandleCloned(object clone)
+    public override string ToString()
     {
+      return _topCard.ToString() + " on to " + _bottomCard.ToString();
     }
   }
 }

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Solitaire.Lib.Context.Interfaces;
 using Solitaire.Lib.Comparers;
+using Solitaire.Lib.Ententions;
 
 namespace Solitaire.Lib.Objects
 {
@@ -36,6 +37,36 @@ namespace Solitaire.Lib.Objects
       :this(unitOfWork)
     {
       Deal(cards);
+    }
+
+    public void SetTableau(List<TableauStack> tableau)
+    {
+      _tableau = tableau;
+    }
+
+    public void SetFoundation(List<FoundationStack> foundation) 
+    {
+      _foundation = foundation;
+    }
+
+    public void SetHand(Hand hand)
+    {
+      _hand = hand;
+    }
+
+    public void SetPastMoves(List<IMove> pastMoves)
+    {
+      _pastMoves = pastMoves;
+    }
+
+    public List<IMove> GetAvailableMovesForTestingOnly()
+    {
+      return _availableMoves;
+    }
+
+    public void SetAvailableMoves(List<IMove> availableMoves)
+    {
+      _availableMoves = availableMoves;
     }
 
     private void InstanciateTableau()
@@ -115,43 +146,42 @@ namespace Solitaire.Lib.Objects
     {
       _availableMoves = new List<IMove>();
 
-      PopulateAvailableMovesForTableau();
+      PopulateAvailableMovesFromTableau();
 
       PopulateAvailableMovesfromHand();
 
       RemoveDuplicatesFromAvailableMoves();
 
+      RemoveMovesAlreadyTaken();
+
       return _availableMoves;
     }
 
-    private void PopulateAvailableMovesForTableau()
+    private void PopulateAvailableMovesFromTableau()
     {
       foreach (TableauStack tableauStack in _tableau)
-        AvailableMovesFromTableauCard(tableauStack.ViewTopCard());
-    }
-
-    private void AvailableMovesFromTableauCard(Card card)
-    {
-      if (card != null)
       {
-        AvailableMovesForCardOntoFoundation<TableauToFoundationMove>(card);
-        AvailableMovesForCardOntoTableau<TableauToTableauMove>(card);
+        AvailableMovesForCardOntoFoundation<TableauToFoundationMove>(tableauStack.ViewTopCard());
+        AvailableMovesForCardOntoTableau<TableauToTableauMove>(tableauStack.ViewFirstFaceUpCard());
       }
     }
 
     private void PopulateAvailableMovesfromHand()
     {
-      Card firstHandCard = _hand.ViewTopCard();
-      CheckCardInHandAndDealHand();
+      Hand clonedHand = (Hand)_hand.Clone();
+      List<Card> checkedCards = new List<Card>();
+      checkedCards.Add(CheckCardInHandAndDealHand(clonedHand));
 
-      while (firstHandCard != _hand.ViewTopCard())
-        CheckCardInHandAndDealHand();
+      while (!checkedCards.Contains(clonedHand.ViewTopCard()))
+        checkedCards.Add(CheckCardInHandAndDealHand(clonedHand));
     }
 
-    private void CheckCardInHandAndDealHand()
+    private Card CheckCardInHandAndDealHand(Hand hand)
     {
-      AvailableMovesFromHandCard(_hand.ViewTopCard());
-      _hand.Deal();
+      Card checkedCard = hand.ViewTopCard();
+      AvailableMovesFromHandCard(checkedCard);
+      hand.Deal();
+      return checkedCard;
     }
 
     private void AvailableMovesFromHandCard(Card card)
@@ -175,9 +205,9 @@ namespace Solitaire.Lib.Objects
 
     private void AvailableMovesForCardOntoTableau<T>(Card card) where T : TableauMove
     {
-      foreach (TableauStack foundationStack in _tableau)
+      foreach (TableauStack tableauStack in _tableau)
       {
-        IMove move = (IMove)Activator.CreateInstance(typeof(T), _unitOfWork, card, foundationStack.ViewTopCard());
+        IMove move = (IMove)Activator.CreateInstance(typeof(T), _unitOfWork, card, tableauStack.ViewTopCard());
         if (move.IsValid())
           AddToAvailableMoves(move);
       }
@@ -195,11 +225,18 @@ namespace Solitaire.Lib.Objects
       _availableMoves = _availableMoves.Distinct(new MoveComparer()).ToList();
     }
 
+    public void RemoveMovesAlreadyTaken()
+    {
+      for (int i = _availableMoves.Count - 1; i >= 0; i--)
+        if (_pastMoves.Contains<IMove>(_availableMoves[i], new MoveComparer()))
+          _availableMoves.RemoveAt(i);
+    }
+
     public void MakeMove(IMove move)
     {
       List<Card> cardsToMove = PickUpCardToMove(move.GetTopCard());
       
-      MovesCardsOnToCard(cardsToMove, move.GetBottomCard());
+      MoveCardsOnToCard(cardsToMove, move.GetBottomCard());
       
       _pastMoves.Add(move);
     }
@@ -207,7 +244,8 @@ namespace Solitaire.Lib.Objects
     private List<Card> PickUpCardToMove(Card cardToFind)
     {
       List<Card> foundCards = FindAndRemoveTableauCards(cardToFind);
-      foundCards.Add(FindAndRemoveHandCard(cardToFind));
+      if(foundCards.Count == 0)
+        foundCards.Add(FindAndRemoveHandCard(cardToFind));
       return foundCards;
     }
 
@@ -230,8 +268,27 @@ namespace Solitaire.Lib.Objects
       return _hand.RemoveCard(cardToRemove);
     }
 
-    private void MovesCardsOnToCard(List<Card> cardsToMove, Card bottomCard)
+    private void MoveCardsOnToCard(List<Card> cardsToMove, Card bottomCard)
     {
+      FindAndMoveCardsOntoStack(_tableau.Concat<BaseStack>(_foundation), cardsToMove, bottomCard);
+    }
+
+    private void FindAndMoveCardsOntoStack(IEnumerable<BaseStack> stacks, List<Card> cardsToMove, Card bottomCard)
+    {
+      foreach (BaseStack stack in stacks)
+      {
+        if (stack.ViewTopCard().Equals(bottomCard))
+        {
+          MoveCardsOntoStack(stack, cardsToMove);
+          break;
+        }
+      }
+    }
+
+    private void MoveCardsOntoStack(BaseStack stack, List<Card> cardsToAdd)
+    {
+      foreach (Card card in cardsToAdd)
+        stack.PushTopCard(card);
     }
 
     public int CountFaceDownTableauCards()
@@ -264,7 +321,13 @@ namespace Solitaire.Lib.Objects
     
     public object Clone()
     {
-      return this.MemberwiseClone();
+      Table table = (Table)this.MemberwiseClone();
+      table.SetTableau(this._tableau.Clone<TableauStack>());
+      table.SetFoundation(this._foundation.Clone<FoundationStack>());
+      table.SetHand((Hand)this._hand.Clone());
+      table.SetPastMoves(this._pastMoves.Clone<IMove>());
+      table.SetAvailableMoves(this._availableMoves.Clone<IMove>());
+      return table;
     }
   }
 }

@@ -34,7 +34,7 @@ namespace Solitaire.Lib.Objects
 
     public Card ViewFirstFaceUpCard()
     {
-      Card firstFaceUpCard = null;
+      Card firstFaceUpCard = new Card(Enums.Values.NotACard, Enums.Suits.NotACard);
       foreach(Card card in _cards.Reverse<Card>())
       {
         if (card.IsFaceUp)

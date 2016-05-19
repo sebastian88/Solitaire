@@ -23,7 +23,7 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
 
     public FoundationMoveTests()
     {
-      _unitOfWork = IoCContainer.GetUnitOfWork();
+      _unitOfWork = IoCContainer.GetTestUnitOfWork();
     }
 
     private void Setup()

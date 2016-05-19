@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Solitaire.Lib.Ententions;
 
 namespace Solitaire.Lib.Objects
 {
-  public class Hand : IPopableStack
+  public class Hand : IPopableStack, ICloneable
   {
     private readonly int DEAL_NUMBER = 3;
 
@@ -30,6 +31,16 @@ namespace Solitaire.Lib.Objects
       _faceUpCards = cards;
       RecycleHand();
       Deal();
+    }
+
+    public void SetFaceUpCards(List<Card> faceUpCards)
+    {
+      _faceUpCards = faceUpCards;
+    }
+
+    public void SetFaceDownCards(List<Card> faceDownCards)
+    {
+      _faceDownCards = faceDownCards;
     }
 
     public bool IsEmpty()
@@ -107,36 +118,53 @@ namespace Solitaire.Lib.Objects
     }
 
     public Card RemoveCard(Card cardToRemove)
-    { 
-      Card removedCard = RemoveCardFromFaceDownCards(cardToRemove);
-      if (removedCard == null)
-        removedCard = RemoveCardFromFaceUpCards(cardToRemove);
+    {
+      MoveAllCardsFromFaceDownToFaceUp();
 
-      // TODO set cards to be the starting from the card removed. 
+      Card removedCard = RemoveCardFromFaceUpCardsAndMoveCardsAfterToFaceDown(cardToRemove);
+
       return removedCard;
     }
 
-    private Card RemoveCardFromFaceDownCards(Card cardToRemove)
+    private void MoveAllCardsFromFaceDownToFaceUp()
     {
-      return RemoveCardFromStack(_faceDownCards, cardToRemove);
+      _faceUpCards.AddRange(PopCards(_faceDownCards.Count()));
     }
 
-    private Card RemoveCardFromFaceUpCards(Card cardToRemove)
-    {
-      return RemoveCardFromStack(_faceUpCards, cardToRemove);
-    }
-
-    private Card RemoveCardFromStack(List<Card> stack, Card cardToRemove)
+    private Card RemoveCardFromFaceUpCardsAndMoveCardsAfterToFaceDown(Card cardToRemove)
     {
       Card removedCard = null;
-
-      int indexInFaceDown = stack.IndexOf(cardToRemove);
-      if (indexInFaceDown != -1)
+      int indexOfCardToRemove = _faceUpCards.IndexOf(cardToRemove);
+      if (indexOfCardToRemove != -1)
       {
-        removedCard = stack[indexInFaceDown];
-        stack.RemoveAt(indexInFaceDown);
+        removedCard = RemoveCardfromFaceUpCards(indexOfCardToRemove);
+        _faceDownCards = RemoveRangeFromFaceUpCards(indexOfCardToRemove);
       }
       return removedCard;
+    }
+
+    private Card RemoveCardfromFaceUpCards(int indexOfCardToRemove)
+    {
+      Card removedCard = _faceUpCards[indexOfCardToRemove];
+      _faceUpCards.RemoveAt(indexOfCardToRemove);
+      return removedCard;
+    }
+
+    private List<Card> RemoveRangeFromFaceUpCards(int index)
+    {
+      int cardsToRemove = _faceUpCards.Count - index;
+      List<Card> cardsAfterRemovedCard = _faceUpCards.GetRange(index, cardsToRemove);
+      _faceUpCards.RemoveRange(index, cardsToRemove);
+      return cardsAfterRemovedCard;
+    }
+
+    public Object Clone()
+    {
+      Hand hand = (Hand)this.MemberwiseClone();
+      hand.SetFaceDownCards(_faceDownCards.Clone<Card>());
+      hand.SetFaceUpCards(_faceUpCards.Clone<Card>());
+
+      return hand;
     }
   }
 }

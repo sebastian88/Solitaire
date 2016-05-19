@@ -2,7 +2,7 @@
 
 namespace Solitaire.Lib.Config
 {
-  public class AppConfig : IAppConfig
+  public class TestConfig : IAppConfig
   {
     public int TableauToTableauMoveValue { get; private set; }
     public int TableauToFoundationMoveValue { get; private set; }
@@ -10,13 +10,13 @@ namespace Solitaire.Lib.Config
     public int HandToTableauMoveValue { get; private set; }
     public int GameRecursionDepth { get; private set; }
 
-    public AppConfig()
+    public TestConfig()
     {
       TableauToTableauMoveValue = 6;
       TableauToFoundationMoveValue = 6;
       HandToFoundationMoveValue = 6;
       HandToTableauMoveValue = 6;
-      GameRecursionDepth = 10;
+      GameRecursionDepth = 7;
     }
   }
 }

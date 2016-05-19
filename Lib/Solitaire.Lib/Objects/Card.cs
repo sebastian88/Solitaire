@@ -8,7 +8,7 @@ using Solitaire.Lib.Utils;
 
 namespace Solitaire.Lib.Objects
 {
-  public class Card : IEquatable<Card>
+  public class Card : IEquatable<Card>, ICloneable
   {
     public bool IsFaceUp { get; set; }
     public Enums.Values Value { get; set; }
@@ -42,6 +42,16 @@ namespace Solitaire.Lib.Objects
     public bool IsSameValue(Card other)
     {
       return ValueInt == other.ValueInt;
+    }
+
+    public object Clone()
+    {
+      return this.MemberwiseClone();
+    }
+
+    public override string ToString()
+    {
+      return Value.ToString() + " " + Suit.ToString() + "(" + (IsFaceUp ? "faceup" : "facedown") + ")";
     }
   }
 }

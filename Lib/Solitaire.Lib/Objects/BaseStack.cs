@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Solitaire.Lib.Objects
 {
-  public class BaseStack : IPushableStack, IPopableStack
+  public class BaseStack : IPushableStack, IPopableStack, ICloneable
   {
     protected List<Card> _cards;
 
@@ -19,6 +19,11 @@ namespace Solitaire.Lib.Objects
     }
 
     public BaseStack(List<Card> cards)
+    {
+      _cards = cards;
+    }
+
+    public void SetCards(List<Card> cards)
     {
       _cards = cards;
     }
@@ -35,7 +40,7 @@ namespace Solitaire.Lib.Objects
 
     public Card ViewTopCard()
     {
-      Card lastCard = null;
+      Card lastCard = new Card(Enums.Values.NotACard, Enums.Suits.NotACard);
       if (!IsEmpty())
         lastCard = _cards.Last();
       return lastCard;
@@ -47,6 +52,22 @@ namespace Solitaire.Lib.Objects
       if (!IsEmpty())
         _cards.RemoveAt(_cards.Count - 1);
       return card;
+    }
+
+    public object Clone()
+    {
+      BaseStack clone = (BaseStack)this.MemberwiseClone();
+      clone.SetCards(_cards.Select(x => (Card)x.Clone()).ToList());
+      return clone;
+    }
+
+    public override string ToString()
+    {
+      StringBuilder sb = new StringBuilder();
+      foreach (Card card in _cards)
+        sb.Append(card.ToString() + ", ");
+
+      return sb.ToString();
     }
   }
 }

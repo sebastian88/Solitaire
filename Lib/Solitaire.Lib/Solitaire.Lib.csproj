@@ -43,9 +43,13 @@
     <Compile Include="Comparers\MoveComparer.cs" />
     <Compile Include="Config\Interfaces\IAppConfig.cs" />
     <Compile Include="Config\AppConfig.cs" />
+    <Compile Include="Config\TestConfig.cs" />
+    <Compile Include="Context\TestUnitOfWork.cs" />
     <Compile Include="Context\UnitOfWork.cs" />
     <Compile Include="Context\Interfaces\IUnitOfWork.cs" />
+    <Compile Include="Ententions\ListExtentions.cs" />
     <Compile Include="Enums\Enums.cs" />
+    <Compile Include="Objects\SearchTreeBranch.cs" />
     <Compile Include="Objects\Game.cs" />
     <Compile Include="Objects\Hand.cs" />
     <Compile Include="Objects\BaseMove.cs" />
