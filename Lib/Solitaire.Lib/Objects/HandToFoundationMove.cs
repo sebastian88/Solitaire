@@ -10,7 +10,7 @@ namespace Solitaire.Lib.Objects
 {
   public class HandToFoundationMove : FoundationMove, IMove
   {
-    public HandToFoundationMove(IUnitOfWork unitOfWork, Card topCard, Card bottomCard)
+    public HandToFoundationMove(IUnitOfWork unitOfWork, IStackable topCard, IStackable bottomCard)
       : base (unitOfWork, topCard, bottomCard)
     {
     }

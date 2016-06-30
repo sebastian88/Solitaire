@@ -5,65 +5,57 @@ using System.Text;
 using System.Threading.Tasks;
 using Solitaire.Lib.Objects.Interfaces;
 using Solitaire.Lib.Utils;
+using Solitaire.Lib.Enums;
 
 namespace Solitaire.Lib.Objects
 {
   public class TableauStack : BaseStack, IPushableStack, IPopableStack
   {
 
-    public TableauStack() 
-      : base()
+    public TableauStack(int stackPosition) 
+      : base(stackPosition)
     {
+      _headOfStack = new TableauStackHead(this);
     }
 
-    public TableauStack(List<Card> cards)
-      : base(cards)
+    public TableauStack(List<ICard> cards, int stackPosition)
+      : this(stackPosition)
     {
-    }
-
-    public int Count()
-    {
-      return _cards.Count;
+      SetCards(cards);
     }
 
     public void TurnoverTopCardIfNecessary()
     {
       if (!IsEmpty())
-        ViewTopCard().IsFaceUp = true;
+      {
+        ICard card = ViewTopCard() as ICard;
+        card.TurnFaceUp();
+      }
     }
 
-    public Card ViewFirstFaceUpCard()
+    public IStackable ViewFirstFaceUpCard()
     {
-      Card firstFaceUpCard = new Card(Enums.Values.NotACard, Enums.Suits.NotACard);
-      foreach(Card card in _cards.Reverse<Card>())
-      {
-        if (card.IsFaceUp)
-          firstFaceUpCard = card;
-        else
-          break;
-      }
+      IStackable firstFaceUpCard = _headOfStack.GetNext();
+      while(!firstFaceUpCard.IsHead() && !firstFaceUpCard.IsFaceUp())
+        firstFaceUpCard = firstFaceUpCard.GetNext();
+      
       return firstFaceUpCard;
     }
 
-    public List<Card> FindCardAndCardsOnTop(Card cardToFind)
+    public ICard RemoveCardAndCardsOnTop(ICard cardToFind)
     {
-      List<Card> foundCardStack = new List<Card>();
-      int indexOfCardToFind = _cards.IndexOf(cardToFind);
+      ICard foundCard = null;
 
-      if (indexOfCardToFind != -1)
-        foundCardStack = RemoveCardsFromEndOfStack(indexOfCardToFind);
+      int index = GetCardIndex(cardToFind);
+      if (index > 0)
+        foundCard = RemoveCardAtIndex(index);
 
-      return foundCardStack;
+      return foundCard;
     }
 
-    private List<Card> RemoveCardsFromEndOfStack(int indexToStartFrom)
+    public override BaseStack GetClonedStack()
     {
-      int numberOfCardsToRemove = _cards.Count - indexToStartFrom;
-
-      List<Card> removedCards = _cards.GetRange(indexToStartFrom, numberOfCardsToRemove);
-      _cards.RemoveRange(indexToStartFrom, numberOfCardsToRemove);
-
-      return removedCards;
+      return new TableauStack(_stackPosition);
     }
   }
 }

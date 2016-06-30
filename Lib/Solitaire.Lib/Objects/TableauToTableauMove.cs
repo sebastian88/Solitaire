@@ -11,7 +11,7 @@ namespace Solitaire.Lib.Objects
 {
   public class TableauToTableauMove : TableauMove, IMove
   {
-    public TableauToTableauMove(IUnitOfWork unitOfWork, Card topCard, Card bottomCard)
+    public TableauToTableauMove(IUnitOfWork unitOfWork, IStackable topCard, IStackable bottomCard)
       : base (unitOfWork, topCard, bottomCard)
     {
     }

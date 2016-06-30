@@ -4,12 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Solitaire.Lib.Enums;
+using Solitaire.Lib.Objects.Interfaces;
 
 namespace Solitaire.Lib.Objects
 {
   public abstract class TableauMove : BaseMove
   {
-    public TableauMove(IUnitOfWork unitOfWork, Card topCard, Card bottomCard)
+    public TableauMove(IUnitOfWork unitOfWork, IStackable topCard, IStackable bottomCard)
       : base (unitOfWork, topCard, bottomCard)
     {
     }
@@ -19,28 +21,16 @@ namespace Solitaire.Lib.Objects
       bool isValid = false;
       if (base.IsValid())
       {
-        if (IsFirstCardOnStack())
-        {
-          isValid = IsTopCardKing();
-        }
-        else
-        {
-          isValid = IsTopCardOneValueLowerThanBottomCard()
-            && IsDifferentColourSuit()
-            && TopCardIsValidCard();
-        }
+        isValid = IsTopCardOneValueLowerThanBottomCard()
+          && IsDifferentColourSuit()
+          && TopCardIsValidCard();
       }
       return isValid;
     }
 
-    private bool IsTopCardKing()
-    {
-      return _topCard.Value == Enums.Values.King;
-    }
-
     private bool TopCardIsValidCard()
     {
-      return !_topCard.Equals(new Card(Enums.Values.NotACard, Enums.Suits.NotACard));
+      return !_topCard.Equals(new Card(Values.NotACard, Suits.NotACard));
     }
 
     private bool IsTopCardOneValueLowerThanBottomCard()
@@ -51,12 +41,15 @@ namespace Solitaire.Lib.Objects
 
     private bool IsTopCardOfLowerValueThanBottomCard()
     {
-      return _topCard.ValueInt - _bottomCard.ValueInt < 0;
+      return _topCard.ValueInt() - _bottomCard.ValueInt() < 0;
     }
 
     private bool IsDifferentColourSuit()
     {
-      return IsOdd(_topCard.SuitInt + _bottomCard.SuitInt);
+      if (_bottomCard.CanBeStackedOnByAnySuit())
+        return true;
+      else
+        return IsOdd(_topCard.SuitInt() + _bottomCard.SuitInt());
     }
 
     private bool IsOdd(int value)

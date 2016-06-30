@@ -23,10 +23,10 @@ namespace Solitaire.Lib.Comparers
       if (obj != null)
       {
 
-        hash = hash * 23 + obj.GetTopCard().SuitInt.GetHashCode();
-        hash = hash * 23 + obj.GetTopCard().ValueInt.GetHashCode();
-        hash = hash * 23 + obj.GetBottomCard().SuitInt.GetHashCode();
-        hash = hash * 23 + obj.GetBottomCard().ValueInt.GetHashCode();
+        hash = hash * 23 + obj.GetTopCard().SuitInt().GetHashCode();
+        hash = hash * 23 + obj.GetTopCard().ValueInt().GetHashCode();
+        hash = hash * 23 + obj.GetBottomCard().SuitInt().GetHashCode();
+        hash = hash * 23 + obj.GetBottomCard().ValueInt().GetHashCode();
       }
       return hash;
     }

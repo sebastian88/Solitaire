@@ -18,5 +18,21 @@ namespace Solitaire.Lib.Ententions
       }
       return list;
     }
+
+    public static int FindIndexOf<T>(this List<T> list, T itemToFind, IEqualityComparer<T> comparer)
+    {
+      int indexOfFoundItem = -1;
+      int count = -1;
+      foreach(T item in list)
+      {
+        count++;
+        if (comparer.Equals(item, itemToFind))
+        {
+          indexOfFoundItem = count;
+          break;
+        }
+      }
+      return indexOfFoundItem;
+    }
   }
 }

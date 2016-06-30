@@ -11,7 +11,7 @@ namespace Solitaire.Lib.Objects
 {
   public class TableauToFoundationMove : FoundationMove, IMove
   {
-    public TableauToFoundationMove(IUnitOfWork unitOfWork, Card topCard, Card bottomCard)
+    public TableauToFoundationMove(IUnitOfWork unitOfWork, IStackable topCard, IStackable bottomCard)
       : base (unitOfWork, topCard, bottomCard)
     {
     }

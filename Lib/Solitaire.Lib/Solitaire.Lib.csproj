@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Comparers\CardComparer.cs" />
     <Compile Include="Comparers\MoveComparer.cs" />
     <Compile Include="Config\Interfaces\IAppConfig.cs" />
     <Compile Include="Config\AppConfig.cs" />
@@ -49,6 +50,12 @@
     <Compile Include="Context\Interfaces\IUnitOfWork.cs" />
     <Compile Include="Ententions\ListExtentions.cs" />
     <Compile Include="Enums\Enums.cs" />
+    <Compile Include="Objects\BaseStackHead.cs" />
+    <Compile Include="Objects\FoundationStackHead.cs" />
+    <Compile Include="Objects\Interfaces\ICard.cs" />
+    <Compile Include="Objects\Interfaces\IHeadOfStack.cs" />
+    <Compile Include="Objects\Interfaces\ISearchableStack.cs" />
+    <Compile Include="Objects\Interfaces\IStackable.cs" />
     <Compile Include="Objects\SearchTreeBranch.cs" />
     <Compile Include="Objects\Game.cs" />
     <Compile Include="Objects\Hand.cs" />
@@ -57,6 +64,7 @@
     <Compile Include="Objects\HandToFoundationMove.cs" />
     <Compile Include="Objects\HandToTableauMove.cs" />
     <Compile Include="Objects\TableauMove.cs" />
+    <Compile Include="Objects\TableauStackHead.cs" />
     <Compile Include="Objects\TableauToFoundationMove.cs" />
     <Compile Include="Objects\TableauToTableauMove.cs" />
     <Compile Include="Objects\Interfaces\IMove.cs" />

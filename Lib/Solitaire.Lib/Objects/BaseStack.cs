@@ -6,66 +6,232 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Solitaire.Lib.Enums;
 
 namespace Solitaire.Lib.Objects
 {
-  public class BaseStack : IPushableStack, IPopableStack, ICloneable
+  public abstract class BaseStack : IPushableStack, IPopableStack, ISearchableStack, ICloneable
   {
-    protected List<Card> _cards;
+    protected int _stackPosition;
+    protected IStackable _headOfStack;
 
-    public BaseStack()
+    public BaseStack(int stackPosition)
     {
-      _cards = new List<Card>();
+      _stackPosition = stackPosition;
     }
 
-    public BaseStack(List<Card> cards)
+    public int GetStackPosition()
     {
-      _cards = cards;
+      return _stackPosition;
     }
 
-    public void SetCards(List<Card> cards)
+    public IStackable GetHeadOfStack()
     {
-      _cards = cards;
+      return _headOfStack;
     }
 
-    public void PushTopCard(Card card)
+    public void SetCards(List<ICard> cards)
     {
-      _cards.Add(card);
+      List<IStackable> stack = new List<IStackable>();
+      foreach (ICard card in cards)
+        stack.Add(card);
+      SetCards(stack);
+    }
+
+    public void SetCards(List<IStackable> cards)
+    {
+      if (cards == null || cards.Count == 0)
+        return;
+
+      IStackable previousItem = _headOfStack;
+      foreach(IStackable card in cards)
+      {
+        previousItem.SetNext(card);
+        previousItem = card;
+      }
+      cards.Last().SetNext(_headOfStack);
+    }
+
+    public void PushTopCard(ICard card)
+    {
+      GetLastStackable().SetNext(card);
+      while(card.GetNext() != null)
+      {
+        card = card.GetNext() as ICard;
+        GetLastStackable().SetNext(card);
+      }
+      card.SetNext(_headOfStack);
+    }
+
+    private IStackable GetLastStackable()
+    {
+      IStackable previousCard = _headOfStack;
+      IStackable card = previousCard.GetNext();
+      while (!card.IsHead())
+      {
+        previousCard = card;
+        card = card.GetNext();
+      }
+      return previousCard;
+    }
+
+    private ICard GetLastCard()
+    {
+      return GetLastStackable() as ICard; 
     }
 
     public bool IsEmpty()
     {
-      return _cards.Count == 0;
+      return Count() == 1;
     }
 
-    public Card ViewTopCard()
+    public int Count()
     {
-      Card lastCard = new Card(Enums.Values.NotACard, Enums.Suits.NotACard);
+      int count = 1;
+      IStackable card = _headOfStack.GetNext();
+      while (!card.IsHead())
+      {
+        count++;
+        card = card.GetNext();
+      }
+      return count;
+    }
+
+    public int CountCards()
+    {
+      return Count() - 1;
+    }
+
+    public int GetCardIndex(ICard cardToFind)
+    {
+      int index = -1;
+      int count = 0;
+      IStackable stackCard = _headOfStack.GetNext();
+      while(!stackCard.IsHead())
+      {
+        count++;
+        if (cardToFind.Equals((ICard)stackCard))
+        {
+          index = count;
+          break;
+        }
+        stackCard = stackCard.GetNext();
+      }
+      return index;
+    }
+
+    public IStackable ViewTopCard()
+    {
+      IStackable lastCard = GetHeadOfStack();
       if (!IsEmpty())
-        lastCard = _cards.Last();
+        lastCard = GetLastCard();
       return lastCard;
     }
 
-    public Card PopTopCard()
+    public IStackable PopTopCard()
     {
-      Card card = ViewTopCard();
-      if (!IsEmpty())
-        _cards.RemoveAt(_cards.Count - 1);
-      return card;
+      IStackable secondToLastCard = GetSecondToLastCard();
+      IStackable lastCard = secondToLastCard.GetNext();
+
+      secondToLastCard.SetNext(_headOfStack);
+      if(!lastCard.IsHead())
+        lastCard.SetNext(null);
+
+      return lastCard;
     }
 
-    public object Clone()
+    public ICard GetCard(ICard card)
     {
-      BaseStack clone = (BaseStack)this.MemberwiseClone();
-      clone.SetCards(_cards.Select(x => (Card)x.Clone()).ToList());
-      return clone;
+      ICard foundCard = null;
+      int indexOfCard = GetCardIndex(card);
+      if (indexOfCard > 0)
+        foundCard = GetCardAtIndexWithIndexCheck(indexOfCard) as ICard;
+      return foundCard;
+    }
+
+    public ICard RemoveCard(ICard cardToRemove)
+    {
+      int indexOfCard = GetCardIndex(cardToRemove);
+      return RemoveCardAtIndex(indexOfCard);
+    }
+
+    protected ICard RemoveCardAtIndex(int index)
+    {
+      ThrowExceptionIfIndexIsOutOfRange(index);
+
+      IStackable cardBeforeIndex = GetCardAtIndex(index - 1);
+      IStackable cardAtindex = cardBeforeIndex.GetNext();
+      ViewTopCard().SetNext(null);
+
+      cardBeforeIndex.SetNext(_headOfStack);
+
+      return cardAtindex as ICard;
+    }
+
+    private void ThrowExceptionIfIndexIsOutOfRange(int index)
+    {
+      if (IsIndexOutOfRange(index))
+        throw new IndexOutOfRangeException();
+    }
+
+    private IStackable GetSecondToLastCard()
+    {
+      return GetCardAtIndexWithIndexCheck(Math.Max(0, Count() - 2));
+    }
+
+    private IStackable GetCardAtIndexWithIndexCheck(int index)
+    {
+      ThrowExceptionIfIndexIsOutOfRange(index);
+
+      return GetCardAtIndex(index);
+    }
+
+    private IStackable GetCardAtIndex(int index)
+    {
+      IStackable currentCard = _headOfStack;
+      int i = 0;
+      while (i < index)
+      {
+        currentCard = currentCard.GetNext();
+        i++;
+      }
+
+      return currentCard;
+    }
+
+    private bool IsIndexOutOfRange(int index)
+    {
+      return index > Count();
+    }
+
+    public virtual object Clone()
+    {
+      BaseStack clonedStack = GetClonedStack();
+      CloneCards(clonedStack.GetHeadOfStack());
+      return clonedStack;
+    }
+
+    public abstract BaseStack GetClonedStack();
+
+    private void CloneCards(IStackable cloneHeadOfStack)
+    {
+      if (!_headOfStack.GetNext().IsHead())
+      {
+        cloneHeadOfStack.SetNext((IStackable)_headOfStack.GetNext().Clone());
+        IStackable next = cloneHeadOfStack.GetNext();
+        while (next.GetNext() != null)
+          next = next.GetNext();
+        next.SetNext(cloneHeadOfStack);
+      }
     }
 
     public override string ToString()
     {
       StringBuilder sb = new StringBuilder();
-      foreach (Card card in _cards)
-        sb.Append(card.ToString() + ", ");
+
+      ICard currentCard = _headOfStack.GetNext() as ICard;
+      while (!currentCard.IsHead())
+        sb.Append(currentCard.ToString() + ", ");
 
       return sb.ToString();
     }

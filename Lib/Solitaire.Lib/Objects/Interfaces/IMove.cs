@@ -11,7 +11,7 @@ namespace Solitaire.Lib.Objects.Interfaces
   {
     bool IsValid();
     int GetValue();
-    Card GetTopCard();
-    Card GetBottomCard();
+    IStackable GetTopCard();
+    IStackable GetBottomCard();
   }
 }

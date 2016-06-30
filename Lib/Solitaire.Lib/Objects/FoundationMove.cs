@@ -6,13 +6,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Solitaire.Lib.Enums;
+using Solitaire.Lib.Objects.Interfaces;
 
 namespace Solitaire.Lib.Objects
 {
   public abstract class FoundationMove : BaseMove
   {
 
-    public FoundationMove(IUnitOfWork unitOfWork, Card topcard, Card bottomCard)
+    public FoundationMove(IUnitOfWork unitOfWork, IStackable topcard, IStackable bottomCard)
       : base(unitOfWork, topcard, bottomCard)
     { }
 
@@ -21,32 +23,23 @@ namespace Solitaire.Lib.Objects
       bool isValid = false;
       if (base.IsValid())
       {
-        if (IsFirstCardOnStack())
-        {
-          isValid = TopCardIsAce();
-        }
-        else
-        {
-          isValid = IsOfSameSuit() && IsInSequence()
-            && IsTopCardOfHigherValueThanBottomCard();
-        }
+        isValid = IsOfSameSuit() && IsInSequence()
+          && IsTopCardOfHigherValueThanBottomCard();
       }
       return isValid;
     }
 
-    private bool TopCardIsAce()
-    {
-      return _topCard.Value == Enums.Values.Ace;
-    }
-
     private bool IsOfSameSuit()
     {
-      return _topCard.Suit == _bottomCard.Suit;
+      if (_bottomCard.CanBeStackedOnByAnySuit())
+        return true;
+      else
+        return _topCard.SuitInt() == _bottomCard.SuitInt();
     }
 
     private bool IsTopCardOfHigherValueThanBottomCard()
     {
-      return _topCard.ValueInt > _bottomCard.ValueInt;
+      return _topCard.ValueInt() > _bottomCard.ValueInt();
     }
   }
 }

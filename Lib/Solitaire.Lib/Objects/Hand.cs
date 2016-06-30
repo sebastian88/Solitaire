@@ -5,40 +5,41 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Solitaire.Lib.Ententions;
+using Solitaire.Lib.Comparers;
 
 namespace Solitaire.Lib.Objects
 {
-  public class Hand : IPopableStack, ICloneable
+  public class Hand : IPopableStack, ISearchableStack, ICloneable
   {
     private readonly int DEAL_NUMBER = 3;
 
-    private List<Card> _faceUpCards;
-    private List<Card> _faceDownCards;
+    private List<ICard> _faceUpCards;
+    private List<ICard> _faceDownCards;
 
     public Hand()
     {
-      _faceUpCards = new List<Card>();
-      _faceDownCards = new List<Card>();
+      _faceUpCards = new List<ICard>();
+      _faceDownCards = new List<ICard>();
     }
 
-    public Hand(List<Card> cards)
+    public Hand(List<ICard> cards)
     {
       SetCards(cards);
     }
 
-    public void SetCards(List<Card> cards)
+    public void SetCards(List<ICard> cards)
     {
       _faceUpCards = cards;
       RecycleHand();
       Deal();
     }
 
-    public void SetFaceUpCards(List<Card> faceUpCards)
+    public void SetFaceUpCards(List<ICard> faceUpCards)
     {
       _faceUpCards = faceUpCards;
     }
 
-    public void SetFaceDownCards(List<Card> faceDownCards)
+    public void SetFaceDownCards(List<ICard> faceDownCards)
     {
       _faceDownCards = faceDownCards;
     }
@@ -58,7 +59,7 @@ namespace Solitaire.Lib.Objects
     {
       RecycleFaceDownCardsIfEmpty();
 
-      List<Card> deltCards = PopNextCards();
+      List<ICard> deltCards = PopNextCards();
 
       _faceUpCards.AddRange(deltCards);
     }
@@ -72,23 +73,23 @@ namespace Solitaire.Lib.Objects
     private void RecycleHand()
     {
       _faceDownCards = _faceUpCards;
-      _faceUpCards = new List<Card>();
+      _faceUpCards = new List<ICard>();
     }
 
-    private List<Card> PopNextCards()
+    private List<ICard> PopNextCards()
     {
       int numberOfCardsToPop = Math.Min(DEAL_NUMBER, _faceDownCards.Count);
       return PopCards(numberOfCardsToPop);
     }
 
-    private List<Card> PopCards(int numberOfCardsToPop)
+    private List<ICard> PopCards(int numberOfCardsToPop)
     {
-      List<Card> poppedCards = _faceDownCards.Take(numberOfCardsToPop).ToList();
+      List<ICard> poppedCards = _faceDownCards.Take(numberOfCardsToPop).ToList();
       _faceDownCards.RemoveRange(0, numberOfCardsToPop);
       return poppedCards;
     }
 
-    public Card ViewTopCard()
+    public IStackable ViewTopCard()
     {
       if (IsFaceUpCardsEmpty())
         Deal();
@@ -105,9 +106,9 @@ namespace Solitaire.Lib.Objects
       return _faceUpCards.Count + _faceDownCards.Count == 0;
     }
 
-    public Card PopTopCard()
+    public IStackable PopTopCard()
     {
-      Card card = ViewTopCard();
+      IStackable card = ViewTopCard();
       _faceUpCards.RemoveAt(_faceUpCards.Count - 1);
       return card;
     }
@@ -117,11 +118,11 @@ namespace Solitaire.Lib.Objects
       return _faceUpCards.Count == 0;
     }
 
-    public Card RemoveCard(Card cardToRemove)
+    public ICard RemoveCard(ICard cardToRemove)
     {
       MoveAllCardsFromFaceDownToFaceUp();
 
-      Card removedCard = RemoveCardFromFaceUpCardsAndMoveCardsAfterToFaceDown(cardToRemove);
+      ICard removedCard = RemoveCardFromFaceUpCardsAndMoveCardsAfterToFaceDown(cardToRemove);
 
       return removedCard;
     }
@@ -131,10 +132,10 @@ namespace Solitaire.Lib.Objects
       _faceUpCards.AddRange(PopCards(_faceDownCards.Count()));
     }
 
-    private Card RemoveCardFromFaceUpCardsAndMoveCardsAfterToFaceDown(Card cardToRemove)
+    private ICard RemoveCardFromFaceUpCardsAndMoveCardsAfterToFaceDown(ICard cardToRemove)
     {
-      Card removedCard = null;
-      int indexOfCardToRemove = _faceUpCards.IndexOf(cardToRemove);
+      ICard removedCard = null;
+      int indexOfCardToRemove = _faceUpCards.FindIndexOf<ICard>(cardToRemove, new CardComparer());
       if (indexOfCardToRemove != -1)
       {
         removedCard = RemoveCardfromFaceUpCards(indexOfCardToRemove);
@@ -143,26 +144,41 @@ namespace Solitaire.Lib.Objects
       return removedCard;
     }
 
-    private Card RemoveCardfromFaceUpCards(int indexOfCardToRemove)
+    private ICard RemoveCardfromFaceUpCards(int indexOfCardToRemove)
     {
-      Card removedCard = _faceUpCards[indexOfCardToRemove];
+      ICard removedCard = _faceUpCards[indexOfCardToRemove];
       _faceUpCards.RemoveAt(indexOfCardToRemove);
       return removedCard;
     }
 
-    private List<Card> RemoveRangeFromFaceUpCards(int index)
+    private List<ICard> RemoveRangeFromFaceUpCards(int index)
     {
       int cardsToRemove = _faceUpCards.Count - index;
-      List<Card> cardsAfterRemovedCard = _faceUpCards.GetRange(index, cardsToRemove);
+      List<ICard> cardsAfterRemovedCard = _faceUpCards.GetRange(index, cardsToRemove);
       _faceUpCards.RemoveRange(index, cardsToRemove);
       return cardsAfterRemovedCard;
     }
 
+    public ICard GetCard(ICard card)
+    {
+      ICard foundCard = null;
+      List<ICard> allCards = _faceUpCards.Concat(_faceDownCards).ToList();
+      foreach (ICard cardToCheck in allCards)
+      {
+        if (cardToCheck.Equals(card))
+        {
+          foundCard = cardToCheck;
+          break;
+        }
+      }
+      return foundCard;
+    }
+
     public Object Clone()
     {
-      Hand hand = (Hand)this.MemberwiseClone();
-      hand.SetFaceDownCards(_faceDownCards.Clone<Card>());
-      hand.SetFaceUpCards(_faceUpCards.Clone<Card>());
+      Hand hand = new Hand();
+      hand.SetFaceDownCards(_faceDownCards.Clone<ICard>());
+      hand.SetFaceUpCards(_faceUpCards.Clone<ICard>());
 
       return hand;
     }

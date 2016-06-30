@@ -10,7 +10,7 @@ namespace Solitaire.Lib.Objects
 {
   public class HandToTableauMove : TableauMove, IMove
   {
-    public HandToTableauMove(IUnitOfWork unitOfWork, Card topCard, Card bottomCard)
+    public HandToTableauMove(IUnitOfWork unitOfWork, IStackable topCard, IStackable bottomCard)
       : base (unitOfWork, topCard, bottomCard)
     {
     }

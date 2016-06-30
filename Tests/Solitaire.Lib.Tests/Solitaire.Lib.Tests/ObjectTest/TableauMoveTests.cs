@@ -4,6 +4,7 @@ using Solitaire.Lib.Objects;
 using Solitaire.Lib.Objects.Interfaces;
 using Solitaire.Lib.Context.Interfaces;
 using Solitaire.Lib.IoC;
+using Solitaire.Lib.Enums;
 
 namespace Solitaire.Lib.Tests.FunctionalModelsTest
 {
@@ -25,11 +26,11 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
 
     private void Setup()
     {
-      _eightSpades = new Card(Enums.Values.Eight, Enums.Suits.Spades);
-      _nineSpades = new Card(Enums.Values.Nine, Enums.Suits.Spades);
-      _nineHearts = new Card(Enums.Values.Nine, Enums.Suits.Hearts);
-      _tenClubs = new Card(Enums.Values.Ten, Enums.Suits.Clubs);
-      _tenHearts = new Card(Enums.Values.Ten, Enums.Suits.Hearts);
+      _eightSpades = new Card(Values.Eight, Suits.Spades);
+      _nineSpades = new Card(Values.Nine, Suits.Spades);
+      _nineHearts = new Card(Values.Nine, Suits.Hearts);
+      _tenClubs = new Card(Values.Ten, Suits.Clubs);
+      _tenHearts = new Card(Values.Ten, Suits.Hearts);
     }
 
     [TestMethod]

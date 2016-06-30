@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Solitaire.Lib.Enums;
+using Solitaire.Lib.Objects.Interfaces;
 
 namespace Solitaire.Lib.Utils
 {
@@ -22,7 +24,7 @@ namespace Solitaire.Lib.Utils
       List<Card> cards = new List<Card>();
       for (int i = 1; i <= 4; i++)
         for (int j = 1; j <= 13; j++)
-          cards.Add(new Card((Enums.Values)j, (Enums.Suits)i, false));
+          cards.Add(new Card((Values)j, (Suits)i, false));
 
       return cards;
     }
@@ -50,6 +52,21 @@ namespace Solitaire.Lib.Utils
       Card randomCard = cards.ElementAt(randomNumber);
       cards.RemoveAt(randomNumber);
       return randomCard;
+    }
+
+    public static int CountCards(IStackable card)
+    {
+      int i = 0;
+      if (card != null)
+      {
+        i++;
+        while (card.GetNext() != null)
+        {
+          i++;
+          card = card.GetNext();
+        } 
+      }
+      return i;
     }
   }
 }

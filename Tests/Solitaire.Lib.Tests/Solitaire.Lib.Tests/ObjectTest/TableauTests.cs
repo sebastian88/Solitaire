@@ -4,6 +4,8 @@ using Solitaire.Lib.Objects;
 using Solitaire.Lib.Objects.Interfaces;
 using System.Collections.Generic;
 using Solitaire.Lib.Tests.TestHelpers;
+using Solitaire.Lib.Enums;
+using Solitaire.Lib.Utils;
 
 namespace Solitaire.Lib.Tests.FunctionalModelsTest
 {
@@ -18,34 +20,34 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
 
     private TableauStack Setup5Cards2FaceUp()
     {
-      List<Card> cards = new List<Card>();
-      cards.Add(new Card(Enums.Values.Eight, Enums.Suits.Hearts, false));
-      cards.Add(new Card(Enums.Values.Six, Enums.Suits.Hearts, false));
-      cards.Add(new Card(Enums.Values.Two, Enums.Suits.Diamonds, false));
-      cards.Add(new Card(Enums.Values.Queen, Enums.Suits.Spades));
-      cards.Add(new Card(Enums.Values.Five, Enums.Suits.Clubs));
-      return new TableauStack(cards);
+      List<ICard> cards = new List<ICard>();
+      cards.Add(new Card(Values.Eight, Suits.Hearts, false));
+      cards.Add(new Card(Values.Six, Suits.Hearts, false));
+      cards.Add(new Card(Values.Two, Suits.Diamonds, false));
+      cards.Add(new Card(Values.Queen, Suits.Spades));
+      cards.Add(new Card(Values.Five, Suits.Clubs));
+      return new TableauStack(cards, 0);
     }
 
     private TableauStack Setup5Cards3FaceUp()
     {
-      List<Card> cards = new List<Card>();
-      cards.Add(new Card(Enums.Values.Eight, Enums.Suits.Hearts, false));
-      cards.Add(new Card(Enums.Values.Six, Enums.Suits.Hearts, false));
-      cards.Add(new Card(Enums.Values.Two, Enums.Suits.Diamonds));
-      cards.Add(new Card(Enums.Values.Queen, Enums.Suits.Spades));
-      cards.Add(new Card(Enums.Values.Five, Enums.Suits.Clubs));
-      return new TableauStack(cards);
+      List<ICard> cards = new List<ICard>();
+      cards.Add(new Card(Values.Eight, Suits.Hearts, false));
+      cards.Add(new Card(Values.Six, Suits.Hearts, false));
+      cards.Add(new Card(Values.Two, Suits.Diamonds));
+      cards.Add(new Card(Values.Queen, Suits.Spades));
+      cards.Add(new Card(Values.Five, Suits.Clubs));
+      return new TableauStack(cards, 0);
     }
 
     [TestMethod]
     public void TableauTests_PopTopCard_EmptyStack_IsNotACard()
     {
-      TableauStack tableau = new TableauStack(new List<Card>());
+      TableauStack tableau = new TableauStack(new List<ICard>(), 0);
 
-      Card card = tableau.PopTopCard();
+      ICard card = tableau.PopTopCard() as ICard;
 
-      Assert.IsTrue(TestHelper.NOT_A_CARD.Equals(card));
+      Assert.IsNull(card);
     }
 
     [TestMethod]
@@ -53,10 +55,10 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     {
       TableauStack tableau = Setup5Cards2FaceUp();
 
-      Card card = tableau.PopTopCard();
+      ICard card = tableau.PopTopCard() as ICard;
       
-      Assert.AreEqual(Enums.Values.Five, card.Value);
-      Assert.AreEqual(Enums.Suits.Clubs, card.Suit);
+      Assert.AreEqual(Values.Five, card.Value());
+      Assert.AreEqual(Suits.Clubs, card.Suit());
     }
 
     [TestMethod]
@@ -64,9 +66,9 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     {
       TableauStack tableau = Setup5Cards2FaceUp();
 
-      Card card = tableau.PopTopCard();
+      ICard card = tableau.PopTopCard() as ICard;
       
-      Assert.IsTrue(card.IsFaceUp);
+      Assert.IsTrue(card.IsFaceUp());
     }
 
     [TestMethod]
@@ -75,10 +77,10 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
       TableauStack tableau = Setup5Cards2FaceUp();
 
       tableau.PopTopCard();
-      Card card = tableau.PopTopCard();
+      ICard card = tableau.PopTopCard() as ICard;
       
-      Assert.AreEqual(Enums.Values.Queen, card.Value);
-      Assert.AreEqual(Enums.Suits.Spades, card.Suit);
+      Assert.AreEqual(Values.Queen, card.Value());
+      Assert.AreEqual(Suits.Spades, card.Suit());
     }
 
     [TestMethod]
@@ -87,9 +89,9 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
       TableauStack tableau = Setup5Cards2FaceUp();
 
       tableau.PopTopCard();
-      Card card = tableau.PopTopCard();
+      ICard card = tableau.PopTopCard() as ICard;
 
-      Assert.IsTrue(card.IsFaceUp);
+      Assert.IsTrue(card.IsFaceUp());
     }
 
     [TestMethod]
@@ -100,10 +102,10 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
       tableau.PopTopCard();
       tableau.PopTopCard();
       tableau.PopTopCard();
-      Card card = tableau.PopTopCard();
+      ICard card = tableau.PopTopCard() as ICard;
 
-      Assert.AreEqual(Enums.Values.Six, card.Value);
-      Assert.AreEqual(Enums.Suits.Hearts, card.Suit);
+      Assert.AreEqual(Values.Six, card.Value());
+      Assert.AreEqual(Suits.Hearts, card.Suit());
     }
 
     [TestMethod]
@@ -114,9 +116,9 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
       tableau.PopTopCard();
       tableau.PopTopCard();
       tableau.PopTopCard();
-      Card card = tableau.PopTopCard();
+      ICard card = tableau.PopTopCard() as ICard;
 
-      Assert.IsFalse(card.IsFaceUp);
+      Assert.IsFalse(card.IsFaceUp());
     }
 
     [TestMethod]
@@ -129,19 +131,19 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
       tableau.PopTopCard();
       tableau.PopTopCard();
       tableau.PopTopCard();
-      Card card = tableau.PopTopCard();
+      ICard card = tableau.PopTopCard() as ICard;
 
-      Assert.IsTrue(TestHelper.NOT_A_CARD.Equals(card));
+      Assert.IsNull(card);
     }
 
     [TestMethod]
     public void TableauTests_ViewTopCard_EmptyStack_IsNotACard()
     {
-      TableauStack tableau = new TableauStack(new List<Card>());
+      TableauStack tableau = new TableauStack(new List<ICard>(), 0);
 
-      Card card = tableau.ViewTopCard();
+      ICard card = tableau.ViewTopCard() as ICard;
 
-      Assert.IsTrue(TestHelper.NOT_A_CARD.Equals(card));
+      Assert.IsNull(card);
     }
 
     [TestMethod]
@@ -149,10 +151,10 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     {
       TableauStack tableau = Setup5Cards2FaceUp();
 
-      Card card = tableau.ViewTopCard();
+      ICard card = tableau.ViewTopCard() as ICard;
 
-      Assert.AreEqual(Enums.Values.Five, card.Value);
-      Assert.AreEqual(Enums.Suits.Clubs, card.Suit);
+      Assert.AreEqual(Values.Five, card.Value());
+      Assert.AreEqual(Suits.Clubs, card.Suit());
     }
 
     [TestMethod]
@@ -164,10 +166,10 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
       tableau.PopTopCard();
       tableau.PopTopCard();
       tableau.PopTopCard();
-      Card card = tableau.ViewTopCard();
+      ICard card = tableau.ViewTopCard() as ICard;
 
-      Assert.AreEqual(Enums.Values.Eight, card.Value);
-      Assert.AreEqual(Enums.Suits.Hearts, card.Suit);
+      Assert.AreEqual(Values.Eight, card.Value());
+      Assert.AreEqual(Suits.Hearts, card.Suit());
     }
 
     [TestMethod]
@@ -179,9 +181,9 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
       tableau.PopTopCard();
       tableau.PopTopCard();
       tableau.PopTopCard();
-      Card card = tableau.ViewTopCard();
+      ICard card = tableau.ViewTopCard() as ICard;
 
-      Assert.IsFalse(card.IsFaceUp);
+      Assert.IsFalse(card.IsFaceUp());
     }
 
     [TestMethod]
@@ -194,9 +196,9 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
       tableau.PopTopCard();
       tableau.PopTopCard();
       tableau.PopTopCard();
-      Card card = tableau.ViewTopCard();
+      ICard card = tableau.ViewTopCard() as ICard;
 
-      Assert.IsTrue(TestHelper.NOT_A_CARD.Equals(card));
+      Assert.IsNull(card);
     }
 
     [TestMethod]
@@ -205,16 +207,16 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
       TableauStack tableau = Setup5Cards2FaceUp();
 
       tableau.ViewTopCard();
-      Card card = tableau.ViewTopCard();
+      ICard card = tableau.ViewTopCard() as ICard;
 
-      Assert.AreEqual(Enums.Values.Five, card.Value);
-      Assert.AreEqual(Enums.Suits.Clubs, card.Suit);
+      Assert.AreEqual(Values.Five, card.Value());
+      Assert.AreEqual(Suits.Clubs, card.Suit());
     }
 
     [TestMethod]
     public void TableauTests_IsEmpty_EmptyStack_IsTrue()
     {
-      TableauStack tableau = new TableauStack(new List<Card>());
+      TableauStack tableau = new TableauStack(new List<ICard>(), 0);
 
       bool isEmpty = tableau.IsEmpty();
 
@@ -234,11 +236,11 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     [TestMethod]
     public void TableauTests_ViewMovableCard_EmptyStack_IsNull()
     {
-      TableauStack tableau = new TableauStack(new List<Card>()); 
+      TableauStack tableau = new TableauStack(new List<ICard>(), 0);
 
-      Card card = tableau.ViewFirstFaceUpCard();
+      ICard card = tableau.ViewFirstFaceUpCard() as ICard;
 
-      Assert.IsTrue(TestHelper.NOT_A_CARD.Equals(card));
+      Assert.IsNull(card);
     }
 
     [TestMethod]
@@ -246,10 +248,10 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     {
       TableauStack tableau = Setup5Cards2FaceUp();
 
-      Card card = tableau.ViewFirstFaceUpCard();
+      ICard card = tableau.ViewFirstFaceUpCard() as ICard;
       
-      Assert.AreEqual(Enums.Values.Queen, card.Value);
-      Assert.AreEqual(Enums.Suits.Spades, card.Suit);
+      Assert.AreEqual(Values.Queen, card.Value());
+      Assert.AreEqual(Suits.Spades, card.Suit());
     }
 
     [TestMethod]
@@ -257,10 +259,10 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     {
       TableauStack tableau = Setup5Cards3FaceUp();
 
-      Card card = tableau.ViewFirstFaceUpCard();
+      ICard card = tableau.ViewFirstFaceUpCard() as ICard;
 
-      Assert.AreEqual(Enums.Values.Two, card.Value);
-      Assert.AreEqual(Enums.Suits.Diamonds, card.Suit);
+      Assert.AreEqual(Values.Two, card.Value());
+      Assert.AreEqual(Suits.Diamonds, card.Suit());
     }
 
     [TestMethod]
@@ -268,78 +270,78 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
     {
       TableauStack tableau = Setup5Cards2FaceUp();
 
-      List<Card> foundCards = tableau.FindCardAndCardsOnTop(new Card(Enums.Values.Jack, Enums.Suits.Diamonds));
+      ICard foundCard = tableau.RemoveCardAndCardsOnTop(new Card(Values.Jack, Suits.Diamonds));
 
-      Assert.AreEqual(foundCards.Count, 0);
+      Assert.AreEqual(foundCard, null);
     }
 
     [TestMethod]
     public void TableauTests_FindCardAndCardsOnTop_FirstCardInStack_CountIs1()
     {
       TableauStack tableau = Setup5Cards2FaceUp();
-      Card cardToFind = new Card(Enums.Values.Five, Enums.Suits.Clubs);
+      Card cardToFind = new Card(Values.Five, Suits.Clubs);
 
-      List<Card> foundCards = tableau.FindCardAndCardsOnTop(cardToFind);
+      ICard foundCard = tableau.RemoveCardAndCardsOnTop(cardToFind);
 
-      Assert.AreEqual(foundCards.Count, 1);
+      Assert.AreEqual(foundCard.GetNext(), null);
     }
 
     [TestMethod]
     public void TableauTests_FindCardAndCardsOnTop_FirstCardInStack_FirstCardIsFiveClubs()
     {
       TableauStack tableau = Setup5Cards2FaceUp();
-      Card cardToFind = new Card(Enums.Values.Five, Enums.Suits.Clubs);
+      Card cardToFind = new Card(Values.Five, Suits.Clubs);
 
-      List<Card> foundCards = tableau.FindCardAndCardsOnTop(cardToFind);
+      ICard foundCard = tableau.RemoveCardAndCardsOnTop(cardToFind);
       
-      Assert.AreEqual(Enums.Values.Five, foundCards[0].Value);
-      Assert.AreEqual(Enums.Suits.Clubs, foundCards[0].Suit);
+      Assert.AreEqual(Values.Five, foundCard.Value());
+      Assert.AreEqual(Suits.Clubs, foundCard.Suit());
     }
 
     [TestMethod]
     public void TableauTests_FindCardAndCardsOnTop_SecondCardInStack_CountIs2()
     {
       TableauStack tableau = Setup5Cards2FaceUp();
-      Card cardToFind = new Card(Enums.Values.Queen, Enums.Suits.Spades);
+      Card cardToFind = new Card(Values.Queen, Suits.Spades);
 
-      List<Card> foundCards = tableau.FindCardAndCardsOnTop(cardToFind);
+      ICard foundCards = tableau.RemoveCardAndCardsOnTop(cardToFind);
 
-      Assert.AreEqual(foundCards.Count, 2);
+      Assert.AreEqual(CardUtils.CountCards(foundCards), 2);
     }
 
     [TestMethod]
     public void TableauTests_FindCardAndCardsOnTop_SecondCardInStack_SecondCardIsFiveClubs()
     {
       TableauStack tableau = Setup5Cards2FaceUp();
-      Card cardToFind = new Card(Enums.Values.Queen, Enums.Suits.Spades);
+      Card cardToFind = new Card(Values.Queen, Suits.Spades);
 
-      List<Card> foundCards = tableau.FindCardAndCardsOnTop(cardToFind);
-      
-      Assert.AreEqual(Enums.Values.Five, foundCards[1].Value);
-      Assert.AreEqual(Enums.Suits.Clubs, foundCards[1].Suit);
+      ICard foundCard = tableau.RemoveCardAndCardsOnTop(cardToFind).GetNext() as ICard;
+
+      Assert.AreEqual(Values.Five, foundCard.Value());
+      Assert.AreEqual(Suits.Clubs, foundCard.Suit());
     }
 
     [TestMethod]
     public void TableauTests_FindCardAndCardsOnTop_SecondCardInStack_FirstCardIsQueenSpades()
     {
       TableauStack tableau = Setup5Cards2FaceUp();
-      Card cardToFind = new Card(Enums.Values.Queen, Enums.Suits.Spades);
+      Card cardToFind = new Card(Values.Queen, Suits.Spades);
 
-      List<Card> foundCards = tableau.FindCardAndCardsOnTop(cardToFind);
+      ICard foundCards = tableau.RemoveCardAndCardsOnTop(cardToFind);
       
-      Assert.AreEqual(Enums.Values.Queen, foundCards[0].Value);
-      Assert.AreEqual(Enums.Suits.Spades, foundCards[0].Suit);
+      Assert.AreEqual(Values.Queen, foundCards.Value());
+      Assert.AreEqual(Suits.Spades, foundCards.Suit());
     }
 
     [TestMethod]
     public void TableauTests_FindCardAndCardsOnTop_SecondCardInStack_TableauCoundIs3()
     {
       TableauStack tableau = Setup5Cards2FaceUp();
-      Card cardToFind = new Card(Enums.Values.Queen, Enums.Suits.Spades);
+      Card cardToFind = new Card(Values.Queen, Suits.Spades);
 
-      List<Card> foundCards = tableau.FindCardAndCardsOnTop(cardToFind);
+      ICard foundCards = tableau.RemoveCardAndCardsOnTop(cardToFind);
 
-      Assert.AreEqual(tableau.Count(), 3);
+      Assert.AreEqual(tableau.CountCards(), 3);
     }
   }
 } 

@@ -6,31 +6,33 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Solitaire.Lib.Enums;
+using Solitaire.Lib.Objects.Interfaces;
 
 namespace Solitaire.Lib.Objects
 {
   public abstract class BaseMove
   {
     protected IUnitOfWork _unitOfWork;
-    protected Card _topCard;
-    protected Card _bottomCard;
+    protected IStackable _topCard;
+    protected IStackable _bottomCard;
 
-    public BaseMove(IUnitOfWork unitOfWork, Card topcard, Card bottomCard)
+    public BaseMove(IUnitOfWork unitOfWork, IStackable topcard, IStackable bottomCard)
     {
       _unitOfWork = unitOfWork;
       _topCard = topcard;
       _bottomCard = bottomCard;
     }
 
-    public Card GetBottomCard()
+    public IStackable GetBottomCard()
     {
       if (_bottomCard == null)
-        return new Card(Enums.Values.NotACard, Enums.Suits.NotACard);
+        return new Card(Values.NotACard, Suits.NotACard);
       else
         return _bottomCard;
     }
 
-    public Card GetTopCard()
+    public IStackable GetTopCard()
     {
       return _topCard;
     }
@@ -42,17 +44,12 @@ namespace Solitaire.Lib.Objects
 
     protected bool AreBothCardsFaceUp()
     {
-      return _topCard.IsFaceUp && _bottomCard.IsFaceUp;
-    }
-
-    protected bool IsFirstCardOnStack()
-    {
-      return _bottomCard.Equals(new Card(Enums.Values.NotACard, Enums.Suits.NotACard));
+      return _topCard.IsFaceUp() && _bottomCard.IsFaceUp();
     }
 
     protected bool IsInSequence()
     {
-      return Math.Abs(_topCard.ValueInt - _bottomCard.ValueInt) == 1;
+      return Math.Abs(_topCard.ValueInt() - _bottomCard.ValueInt()) == 1;
     }
     
     public object Clone()

@@ -31,9 +31,10 @@ namespace Solitaire.Lib.Objects
       InstanciateFoundation();
       instanciateHand();
       _pastMoves = new List<IMove>();
+      _availableMoves = new List<IMove>();
     }
 
-    public Table(IUnitOfWork unitOfWork, List<Card> cards)
+    public Table(IUnitOfWork unitOfWork, List<ICard> cards)
       :this(unitOfWork)
     {
       Deal(cards);
@@ -59,7 +60,7 @@ namespace Solitaire.Lib.Objects
       _pastMoves = pastMoves;
     }
 
-    public List<IMove> GetAvailableMovesForTestingOnly()
+    public List<IMove> GetAvailableMoves_TESTING_ONLY()
     {
       return _availableMoves;
     }
@@ -73,14 +74,14 @@ namespace Solitaire.Lib.Objects
     {
       _tableau = new List<TableauStack>();
       for (int i = 0; i < NUMBER_OF_TABLEAU_STACKS; i++)
-        _tableau.Add(new TableauStack());
+        _tableau.Add(new TableauStack(i));
     }
 
     private void InstanciateFoundation()
     {
       _foundation = new List<FoundationStack>();
       for (int i = 0; i < NUMBER_OF_FOUNDATION_STACKS; i++)
-        _foundation.Add(new FoundationStack());
+        _foundation.Add(new FoundationStack(i));
     }
 
     private void instanciateHand()
@@ -88,13 +89,13 @@ namespace Solitaire.Lib.Objects
       _hand = new Hand();
     }
 
-    public void Deal(List<Card> cards)
+    public void Deal(List<ICard> cards)
     {
       DealTableau(cards);
       DealHand(cards);
     }
 
-    private void DealTableau(List<Card> cards)
+    private void DealTableau(List<ICard> cards)
     {
       for (int currentRow = 0; currentRow < NUMBER_OF_TABLEAU_STACKS; currentRow++)
         cards = DealRow(currentRow, cards);
@@ -102,7 +103,7 @@ namespace Solitaire.Lib.Objects
       UpTurnEndTableauCards();
     }
 
-    private List<Card> DealRow(int rowToDeal, List<Card> cards)
+    private List<ICard> DealRow(int rowToDeal, List<ICard> cards)
     {
       for (int currentTableau = rowToDeal; currentTableau < NUMBER_OF_TABLEAU_STACKS; currentTableau++)
       {
@@ -117,9 +118,9 @@ namespace Solitaire.Lib.Objects
       return _tableau[tableauStack];
     }
 
-    public void SetTableauStack(int tableauStack, List<Card> cards)
+    public void SetTableauStack(int tableauStack, List<ICard> cards)
     {
-      _tableau[tableauStack] = new TableauStack(cards);
+      _tableau[tableauStack] = new TableauStack(cards, tableauStack);
     }
 
     public FoundationStack GetFoundationStack(int foundationStack)
@@ -127,7 +128,7 @@ namespace Solitaire.Lib.Objects
       return _foundation[foundationStack];
     }
 
-    public void SetHand(List<Card> cards)
+    public void SetHand(List<ICard> cards)
     {
       _hand = new Hand(cards);
     }
@@ -169,22 +170,22 @@ namespace Solitaire.Lib.Objects
     private void PopulateAvailableMovesfromHand()
     {
       Hand clonedHand = (Hand)_hand.Clone();
-      List<Card> checkedCards = new List<Card>();
+      List<IStackable> checkedCards = new List<IStackable>();
       checkedCards.Add(CheckCardInHandAndDealHand(clonedHand));
 
       while (!checkedCards.Contains(clonedHand.ViewTopCard()))
         checkedCards.Add(CheckCardInHandAndDealHand(clonedHand));
     }
 
-    private Card CheckCardInHandAndDealHand(Hand hand)
+    private IStackable CheckCardInHandAndDealHand(Hand hand)
     {
-      Card checkedCard = hand.ViewTopCard();
+      IStackable checkedCard = hand.ViewTopCard();
       AvailableMovesFromHandCard(checkedCard);
       hand.Deal();
       return checkedCard;
     }
 
-    private void AvailableMovesFromHandCard(Card card)
+    private void AvailableMovesFromHandCard(IStackable card)
     {
       if (card != null)
       {
@@ -193,7 +194,7 @@ namespace Solitaire.Lib.Objects
       }
     }
 
-    private void AvailableMovesForCardOntoFoundation<T>(Card card) where T : FoundationMove
+    private void AvailableMovesForCardOntoFoundation<T>(IStackable card) where T : FoundationMove
     {
       foreach (FoundationStack foundationStack in _foundation)
       {
@@ -203,7 +204,7 @@ namespace Solitaire.Lib.Objects
       }
     }
 
-    private void AvailableMovesForCardOntoTableau<T>(Card card) where T : TableauMove
+    private void AvailableMovesForCardOntoTableau<T>(IStackable card) where T : TableauMove
     {
       foreach (TableauStack tableauStack in _tableau)
       {
@@ -234,97 +235,114 @@ namespace Solitaire.Lib.Objects
 
     public void MakeMove(IMove move)
     {
-      List<Card> cardsToMove = PickUpCardToMove(move.GetTopCard());
+      ICard cardToMove = PickUpCardToMove(move.GetTopCard() as ICard);
       
-      MoveCardsOnToCard(cardsToMove, move.GetBottomCard());
+      MoveCardsOnToCard(cardToMove, move.GetBottomCard());
       
       _pastMoves.Add(move);
     }
 
-    private List<Card> PickUpCardToMove(Card cardToFind)
+    private ICard PickUpCardToMove(ICard cardToFind)
     {
-      List<Card> foundCards = FindAndRemoveTableauCards(cardToFind);
-      if(foundCards.Count == 0)
-        foundCards.Add(FindAndRemoveHandCard(cardToFind));
-      return foundCards;
+      ICard foundCard = FindAndRemoveHandCard(cardToFind);
+      if (foundCard == null)
+        foundCard = FindAndRemoveTableauCards(cardToFind);
+      return foundCard;
     }
 
-    private List<Card> FindAndRemoveTableauCards(Card cardToFind)
+    private ICard FindAndRemoveTableauCards(ICard cardToFind)
     {
-      List<Card> foundCards = null;
-      int currentTableauStackindex = 0;
-      do
+      ICard foundCard = null;
+      IHeadOfStack headOfStack = cardToFind.GetHeadOfStack();
+      if (headOfStack != null)
       {
-        foundCards = _tableau[currentTableauStackindex].FindCardAndCardsOnTop(cardToFind);
-        currentTableauStackindex++;
+        BaseStack stack = headOfStack.GetStack();
+        foundCard = stack.RemoveCard(cardToFind);
       }
-      while (foundCards.Count == 0 && _tableau.Count > currentTableauStackindex);
-
-      return foundCards;
+      return foundCard;
     }
 
-    private Card FindAndRemoveHandCard(Card cardToRemove)
+    private ICard FindAndRemoveHandCard(ICard cardToRemove)
     {
       return _hand.RemoveCard(cardToRemove);
     }
 
-    private void MoveCardsOnToCard(List<Card> cardsToMove, Card bottomCard)
+    private void MoveCardsOnToCard(ICard cardToMove, IStackable bottomCard)
     {
-      FindAndMoveCardsOntoStack(_tableau.Concat<BaseStack>(_foundation), cardsToMove, bottomCard);
+      BaseStack stack = bottomCard.GetHeadOfStack().GetStack();
+      stack.PushTopCard(cardToMove as Card);
     }
 
-    private void FindAndMoveCardsOntoStack(IEnumerable<BaseStack> stacks, List<Card> cardsToMove, Card bottomCard)
+    public ICard GetCard(ICard card)
     {
-      foreach (BaseStack stack in stacks)
+      ICard foundCard = null;
+      foreach(ISearchableStack stack in CombineAllCardStacks())
       {
-        if (stack.ViewTopCard().Equals(bottomCard))
-        {
-          MoveCardsOntoStack(stack, cardsToMove);
+        foundCard = stack.GetCard(card);
+        if (foundCard != null)
           break;
-        }
       }
+      return foundCard;
     }
 
-    private void MoveCardsOntoStack(BaseStack stack, List<Card> cardsToAdd)
+    private List<ISearchableStack> CombineAllCardStacks()
     {
-      foreach (Card card in cardsToAdd)
-        stack.PushTopCard(card);
+      List<ISearchableStack> allCardStacks = _tableau.ToList<ISearchableStack>()
+        .Concat(_foundation.ToList<ISearchableStack>())
+        .ToList();
+
+      allCardStacks.Add(_hand);
+
+      return allCardStacks;
     }
 
     public int CountFaceDownTableauCards()
     {
       int facedownCards = 0;
       foreach (TableauStack tableauStack in _tableau)
-        if (!tableauStack.ViewTopCard().IsFaceUp)
+        if (!tableauStack.ViewTopCard().IsFaceUp())
           facedownCards++;
       return facedownCards;
     }
 
-    public void UpTurnEndTableauCards()
+    public bool UpTurnEndTableauCards()
     {
+      bool areCardsTurned = false;
       foreach (TableauStack tableauStack in _tableau)
-        TurnCardFaceUpIfFaceDown(tableauStack);
+      {
+        if (TurnCardFaceUpIfFaceDown(tableauStack))
+          areCardsTurned = true;
+      }
+      return areCardsTurned;
     }
 
-    private void TurnCardFaceUpIfFaceDown(TableauStack tableauStack)
+    private bool TurnCardFaceUpIfFaceDown(TableauStack tableauStack)
     {
-      if (!tableauStack.ViewTopCard().IsFaceUp)
-        tableauStack.ViewTopCard().IsFaceUp = true;
+      bool isCardTurned = false;
+      if (!tableauStack.ViewTopCard().IsFaceUp())
+      {
+        ICard card = tableauStack.ViewTopCard() as ICard;
+        card.TurnFaceUp();
+        isCardTurned = true;
+      }
+      return isCardTurned;
     }
 
-    private void DealHand(List<Card> cards)
+    private void DealHand(List<ICard> cards)
     {
-      foreach (Card card in cards)
-        card.IsFaceUp = true;
+      foreach (ICard card in cards)
+        card.TurnFaceUp();
       _hand.SetCards(cards);
     }
     
     public object Clone()
     {
-      Table table = (Table)this.MemberwiseClone();
+      Table table = new Table(_unitOfWork);
+      // TODO clone of the tableau stack needs to be deeper. 
       table.SetTableau(this._tableau.Clone<TableauStack>());
       table.SetFoundation(this._foundation.Clone<FoundationStack>());
       table.SetHand((Hand)this._hand.Clone());
+      Object.ReferenceEquals(_hand.ViewTopCard(), table.GetHand().ViewTopCard());
       table.SetPastMoves(this._pastMoves.Clone<IMove>());
       table.SetAvailableMoves(this._availableMoves.Clone<IMove>());
       return table;

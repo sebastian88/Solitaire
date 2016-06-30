@@ -9,7 +9,7 @@ namespace Solitaire.Lib.Objects.Interfaces
   public interface IPopableStack
   {
     bool IsEmpty();
-    Card ViewTopCard();
-    Card PopTopCard();
+    IStackable ViewTopCard();
+    IStackable PopTopCard();
   }
 }

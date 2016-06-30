@@ -5,53 +5,119 @@ using System.Text;
 using System.Threading.Tasks;
 using Solitaire.Lib;
 using Solitaire.Lib.Utils;
+using Solitaire.Lib.Enums;
+using Solitaire.Lib.Objects.Interfaces;
 
 namespace Solitaire.Lib.Objects
 {
-  public class Card : IEquatable<Card>, ICloneable
+  public class Card : ICard
   {
-    public bool IsFaceUp { get; set; }
-    public Enums.Values Value { get; set; }
-    public int ValueInt { get { return (int)Value; } set { Value = (Enums.Values)value; } }
-    public Enums.Suits Suit { get; set; }
-    public int SuitInt { get { return (int)Suit; } set { Suit = (Enums.Suits)value; } }
+    private bool _isFaceUp;
+    private Values _value;
+    private Suits _suit;
+    private IStackable _next;
 
-    public Card(Enums.Values value, Enums.Suits suit)
+    public Card(Values value, Suits suit)
     {
-      Value = value;
-      Suit = suit;
-      IsFaceUp = true;
+      _value = value;
+      _suit = suit;
+      _isFaceUp = true;
     }
-    public Card(Enums.Values value, Enums.Suits suit, bool isFaceUp)
+    public Card(Values value, Suits suit, bool isFaceUp)
       : this(value, suit)
     {
-      IsFaceUp = isFaceUp;
+      _isFaceUp = isFaceUp;
+    }
+
+    public bool IsFaceUp()
+    {
+      return _isFaceUp;
+    }
+
+    public Values Value()
+    {
+      return _value;
+    }
+
+    public int ValueInt()
+    {
+      return (int)_value;
+    }
+
+    public Suits Suit()
+    {
+      return _suit;
+    }
+
+    public int SuitInt()
+    {
+      return (int)_suit;
+    } 
+
+    public void TurnFaceUp()
+    {
+      _isFaceUp = true;
     }
 
 
-    public bool Equals(Card other)
+    public bool Equals(IStackable other)
     {
-      return IsSameValue(other) && IsSameSuit(other);
+      ICard card = other as ICard;
+      if (card == null)
+        return false;
+      else
+        return IsSameValue(card) && IsSameSuit(card);
     }
 
-    public bool IsSameSuit(Card other)
+    public bool IsSameSuit(ICard other)
     {
-      return SuitInt == other.SuitInt;
+      return SuitInt() == other.SuitInt();
     }
 
-    public bool IsSameValue(Card other)
+    public bool IsSameValue(ICard other)
     {
-      return ValueInt == other.ValueInt;
+      return ValueInt() == other.ValueInt();
     }
 
     public object Clone()
     {
-      return this.MemberwiseClone();
+      Card clone = new Card(_value, _suit, _isFaceUp);
+      if (_next != null && !_next.IsHead())
+        clone.SetNext((IStackable)_next.Clone());
+      return clone;
     }
 
     public override string ToString()
     {
-      return Value.ToString() + " " + Suit.ToString() + "(" + (IsFaceUp ? "faceup" : "facedown") + ")";
+      return _value.ToString() + " " + _suit.ToString() + "(" + (_isFaceUp ? "faceup" : "facedown") + ")";
+    }
+
+    public IStackable GetNext()
+    {
+      return _next;
+    }
+
+    public void SetNext(IStackable stackableItem)
+    {
+      _next = stackableItem;
+    }
+
+    public bool IsHead()
+    {
+      return false;
+    }
+
+    public bool CanBeStackedOnByAnySuit()
+    {
+      return false;
+    }
+
+    public IHeadOfStack GetHeadOfStack()
+    {
+      IStackable card = GetNext();
+      while (!card.IsHead())
+        card = card.GetNext();
+      return card as IHeadOfStack;
     }
   }
 }

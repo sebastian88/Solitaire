@@ -8,6 +8,6 @@ namespace Solitaire.Lib.Objects.Interfaces
 {
   public interface IPushableStack
   {
-    void PushTopCard(Card card);
+    void PushTopCard(ICard card);
   }
 }

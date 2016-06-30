@@ -14,7 +14,7 @@ namespace Solitaire.Lib.Objects
     private List<SearchTreeBranch> _branches;
     private IUnitOfWork _unitOfWork;
 
-    public Game(IUnitOfWork unitOfWork, List<Card> cards)
+    public Game(IUnitOfWork unitOfWork, List<ICard> cards)
     {
       _unitOfWork = unitOfWork;
       _table = new Table(_unitOfWork, cards);
@@ -38,13 +38,22 @@ namespace Solitaire.Lib.Objects
 
     public void Run()
     {
-      // find available moves
+      List<IMove> movesToMake = GetBestMoveBranch();
+      do
+      {
+        MakeMovesUntillCardIsTurned(movesToMake);
+        movesToMake = GetBestMoveBranch();
+      } while (movesToMake.Count > 0);
+    }
 
-      // forward search
-
-      // take one with highest value
-
-      // turn over available cards
+    private void MakeMovesUntillCardIsTurned(List<IMove> movesToMake)
+    {
+      foreach (IMove move in movesToMake)
+      {
+        _table.MakeMove(move);
+        if (_table.UpTurnEndTableauCards())
+          break;
+      }
     }
 
     public List<IMove> GetBestMoveBranch()
@@ -55,8 +64,15 @@ namespace Solitaire.Lib.Objects
 
     private List<IMove> PickBestMoveBranch()
     {
-      FindAllMoveBranchesRecursive(_table, 0);
+      FindAllMoveBranchesRecursive(GetTableWithNoPreviousMoves(), 0);
       return GetBestBranch();
+    }
+
+    private Table GetTableWithNoPreviousMoves()
+    {
+      Table tableWithNoPreviousMoves = (Table)_table.Clone();
+      tableWithNoPreviousMoves.SetPastMoves(new List<IMove>());
+      return tableWithNoPreviousMoves;
     }
 
    public List<IMove> GetBestBranch()
