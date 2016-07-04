@@ -38,6 +38,18 @@ namespace Solitaire.Lib.Objects
       return 0; 
     }
 
+    public override bool Equals(IStackable other)
+    {
+      bool isEqual = false;
+
+      FoundationStackHead foundationStackHead = other as FoundationStackHead;
+      if (foundationStackHead != null)
+        isEqual = true;
+        //_foundationStack.GetStackPosition() == foundationStackHead.GetStack().GetStackPosition();
+
+      return isEqual;
+    }
+
     public override object Clone()
     {
       return new FoundationStackHead();

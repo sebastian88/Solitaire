@@ -55,19 +55,14 @@ namespace Solitaire.Lib.Objects
     public void PushTopCard(ICard card)
     {
       GetLastStackable().SetNext(card);
-      while(card.GetNext() != null)
-      {
-        card = card.GetNext() as ICard;
-        GetLastStackable().SetNext(card);
-      }
-      card.SetNext(_headOfStack);
+      GetLastStackable().SetNext(_headOfStack);
     }
 
     private IStackable GetLastStackable()
     {
       IStackable previousCard = _headOfStack;
       IStackable card = previousCard.GetNext();
-      while (!card.IsHead())
+      while (card != null && !card.IsHead())
       {
         previousCard = card;
         card = card.GetNext();
@@ -102,19 +97,19 @@ namespace Solitaire.Lib.Objects
       return Count() - 1;
     }
 
-    public int GetCardIndex(ICard cardToFind)
+    public int GetCardIndex(IStackable cardToFind)
     {
       int index = -1;
       int count = 0;
-      IStackable stackCard = _headOfStack.GetNext();
-      while(!stackCard.IsHead())
+      IStackable stackCard = _headOfStack;
+      while(count <= Count())
       {
-        count++;
-        if (cardToFind.Equals((ICard)stackCard))
+        if (cardToFind.Equals(stackCard))
         {
           index = count;
           break;
         }
+        count++;
         stackCard = stackCard.GetNext();
       }
       return index;
@@ -140,12 +135,12 @@ namespace Solitaire.Lib.Objects
       return lastCard;
     }
 
-    public ICard GetCard(ICard card)
+    public IStackable GetStackable(IStackable card)
     {
-      ICard foundCard = null;
+      IStackable foundCard = null;
       int indexOfCard = GetCardIndex(card);
-      if (indexOfCard > 0)
-        foundCard = GetCardAtIndexWithIndexCheck(indexOfCard) as ICard;
+      if (indexOfCard >= 0)
+        foundCard = GetCardAtIndexWithIndexCheck(indexOfCard);
       return foundCard;
     }
 
@@ -190,7 +185,7 @@ namespace Solitaire.Lib.Objects
     {
       IStackable currentCard = _headOfStack;
       int i = 0;
-      while (i < index)
+      while (i != index)
       {
         currentCard = currentCard.GetNext();
         i++;
@@ -201,7 +196,7 @@ namespace Solitaire.Lib.Objects
 
     private bool IsIndexOutOfRange(int index)
     {
-      return index > Count();
+      return index > Count() || index < 0;
     }
 
     public virtual object Clone()
@@ -229,9 +224,15 @@ namespace Solitaire.Lib.Objects
     {
       StringBuilder sb = new StringBuilder();
 
-      ICard currentCard = _headOfStack.GetNext() as ICard;
+      sb.Append(this.GetType().ToString() + " ");
+      sb.Append(this._stackPosition + ": ");
+
+      IStackable currentCard = _headOfStack.GetNext();
       while (!currentCard.IsHead())
+      {
         sb.Append(currentCard.ToString() + ", ");
+        currentCard = currentCard.GetNext();
+      }
 
       return sb.ToString();
     }

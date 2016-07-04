@@ -235,9 +235,9 @@ namespace Solitaire.Lib.Objects
 
     public void MakeMove(IMove move)
     {
-      ICard cardToMove = PickUpCardToMove(move.GetTopCard() as ICard);
+      ICard cardToMove = PickUpCardToMove(GetCard(move.GetTopCard()));
       
-      MoveCardsOnToCard(cardToMove, move.GetBottomCard());
+      MoveCardsOnToCard(cardToMove, GetStackable(move.GetBottomCard()));
       
       _pastMoves.Add(move);
     }
@@ -273,16 +273,21 @@ namespace Solitaire.Lib.Objects
       stack.PushTopCard(cardToMove as Card);
     }
 
-    public ICard GetCard(ICard card)
+    public IStackable GetStackable(IStackable stackable)
     {
-      ICard foundCard = null;
-      foreach(ISearchableStack stack in CombineAllCardStacks())
+      IStackable foundStackable = null;
+      foreach (ISearchableStack stack in CombineAllCardStacks())
       {
-        foundCard = stack.GetCard(card);
-        if (foundCard != null)
+        foundStackable = stack.GetStackable(stackable);
+        if (foundStackable != null)
           break;
       }
-      return foundCard;
+      return foundStackable;
+    }
+
+    public ICard GetCard(IStackable card)
+    {
+      return GetStackable(card) as ICard;
     }
 
     private List<ISearchableStack> CombineAllCardStacks()
@@ -338,7 +343,6 @@ namespace Solitaire.Lib.Objects
     public object Clone()
     {
       Table table = new Table(_unitOfWork);
-      // TODO clone of the tableau stack needs to be deeper. 
       table.SetTableau(this._tableau.Clone<TableauStack>());
       table.SetFoundation(this._foundation.Clone<FoundationStack>());
       table.SetHand((Hand)this._hand.Clone());
@@ -346,6 +350,17 @@ namespace Solitaire.Lib.Objects
       table.SetPastMoves(this._pastMoves.Clone<IMove>());
       table.SetAvailableMoves(this._availableMoves.Clone<IMove>());
       return table;
+    }
+
+    public override string ToString()
+    {
+      StringBuilder sb = new StringBuilder();
+      foreach (ISearchableStack stack in CombineAllCardStacks())
+      {
+        sb.AppendLine(stack.ToString());
+      }
+
+      return sb.ToString();
     }
   }
 }

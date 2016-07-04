@@ -60,6 +60,7 @@
     <Compile Include="ObjectTest\TableTests.cs" />
     <Compile Include="ObjectTest\GameTests.cs" />
     <Compile Include="ObjectTest\CardTests.cs" />
+    <Compile Include="ObjectTest\StackHeadTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestHelpers\TestHelper.cs" />
     <Compile Include="UtilsTests\CardUtilsTests.cs" />

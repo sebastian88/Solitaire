@@ -35,6 +35,7 @@ namespace Solitaire.Lib.Tests.TestHelpers
     public static Card TWO_SPADES = new Card(Values.Two, Suits.Spades);
     public static Card KING_SPADES = new Card(Values.King, Suits.Spades);
 
+    // ks 6s kd 8d 4d 1d qc           1h -> jc
     public static List<ICard> GenerateTestDeck()
     {
       List<ICard> cards = new List<ICard>();

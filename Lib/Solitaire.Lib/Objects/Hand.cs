@@ -120,11 +120,23 @@ namespace Solitaire.Lib.Objects
 
     public ICard RemoveCard(ICard cardToRemove)
     {
-      MoveAllCardsFromFaceDownToFaceUp();
-
-      ICard removedCard = RemoveCardFromFaceUpCardsAndMoveCardsAfterToFaceDown(cardToRemove);
-
+      ICard removedCard = null;
+      if (ContainsCard(cardToRemove))
+      {
+        MoveAllCardsFromFaceDownToFaceUp();
+        removedCard = RemoveCardFromFaceUpCardsAndMoveCardsAfterToFaceDown(cardToRemove);
+      }
       return removedCard;
+    }
+
+    private bool ContainsCard(ICard cardToFind)
+    {
+      bool isCardFound = false;
+      foreach (ICard card in _faceDownCards.Concat(_faceUpCards))
+        if (card.Equals(cardToFind))
+          isCardFound = true;
+
+      return isCardFound;
     }
 
     private void MoveAllCardsFromFaceDownToFaceUp()
@@ -159,7 +171,7 @@ namespace Solitaire.Lib.Objects
       return cardsAfterRemovedCard;
     }
 
-    public ICard GetCard(ICard card)
+    public IStackable GetStackable(IStackable card)
     {
       ICard foundCard = null;
       List<ICard> allCards = _faceUpCards.Concat(_faceDownCards).ToList();
@@ -181,6 +193,21 @@ namespace Solitaire.Lib.Objects
       hand.SetFaceUpCards(_faceUpCards.Clone<ICard>());
 
       return hand;
+    }
+
+    public override string ToString()
+    {
+      StringBuilder sb = new StringBuilder();
+
+      sb.AppendLine("FaceUpCards: ");
+      foreach (ICard card in _faceUpCards)
+        sb.Append(card.ToString());
+
+      sb.AppendLine("FaceDownCards: ");
+      foreach (ICard card in _faceDownCards)
+        sb.Append(card.ToString());
+
+      return sb.ToString();
     }
   }
 }

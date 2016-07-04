@@ -52,16 +52,8 @@ namespace Solitaire.Lib.Objects
     {
       return this as IHeadOfStack;
     }
-    
-    public bool Equals(IStackable other)
-    {
-      return IsOfSameType(other);
-    }
 
-    private bool IsOfSameType(IStackable other)
-    {
-      return this.GetType().Equals(other.GetType());
-    }
+    public abstract bool Equals(IStackable other);
 
     public abstract object Clone();
 

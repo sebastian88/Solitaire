@@ -368,5 +368,26 @@ namespace Solitaire.Lib.Tests.FunctionalModelsTest
       ICard topCard = clone.GetTableauStack(0).ViewTopCard() as ICard;
       Assert.AreEqual(topCard.Suit(), Suits.Hearts);
     }
+
+    [TestMethod]
+    public void TableTests_ToString_CallOnEmptyTable_IsNotNull()
+    {
+      Table table = new Table(_unitOfWork);
+
+      string tableToString = table.ToString();
+
+      Assert.IsNotNull(tableToString);
+    }
+
+    [TestMethod]
+    public void TableTests_ToString_CallOnFullTable_IsNotNull()
+    {
+      Table table = new Table(_unitOfWork);
+      table.Deal(TestHelper.GenerateTestDeck());
+
+      string tableToString = table.ToString();
+
+      Assert.IsNotNull(tableToString);
+    }
   }
 }

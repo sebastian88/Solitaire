@@ -13,3 +13,8 @@ C:\Github\Solitaire\Solitaire\Lib\Solitaire.Lib\bin\Debug\Solitaire.Lib.pdb
 C:\Github\Solitaire\Solitaire\Lib\Solitaire.Lib\obj\Debug\Solitaire.Lib.csprojResolveAssemblyReference.cache
 C:\Github\Solitaire\Solitaire\Lib\Solitaire.Lib\obj\Debug\Solitaire.Lib.dll
 C:\Github\Solitaire\Solitaire\Lib\Solitaire.Lib\obj\Debug\Solitaire.Lib.pdb
+D:\GitPersonal\Solitaire\Lib\Solitaire.Lib\bin\Debug\Solitaire.Lib.dll
+D:\GitPersonal\Solitaire\Lib\Solitaire.Lib\bin\Debug\Solitaire.Lib.pdb
+D:\GitPersonal\Solitaire\Lib\Solitaire.Lib\obj\Debug\Solitaire.Lib.csprojResolveAssemblyReference.cache
+D:\GitPersonal\Solitaire\Lib\Solitaire.Lib\obj\Debug\Solitaire.Lib.dll
+D:\GitPersonal\Solitaire\Lib\Solitaire.Lib\obj\Debug\Solitaire.Lib.pdb

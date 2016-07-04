@@ -8,6 +8,6 @@ namespace Solitaire.Lib.Objects.Interfaces
 {
   public interface ISearchableStack
   {
-    ICard GetCard(ICard card);
+    IStackable GetStackable(IStackable card);
   }
 }
